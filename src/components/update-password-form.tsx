@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Eye, EyeClosed } from 'lucide-react';
 
 const formSchema = z.object({
   password: z
@@ -28,15 +29,15 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 export function UpdatePasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const [error, setError] = useState<string | null>(null);
+  const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
+  const router = useRouter();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: '',
     },
   });
-
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   const onSubmit = async (values: FormSchemaType) => {
     const supabase = createClient();
@@ -75,8 +76,19 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        type='password'
+                        type={passwordFieldType}
                         placeholder='••••••••'
+                        rightElement={
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            className='bg-transparent aspect-square rounded-md p-0'
+                            onClick={() => setPasswordFieldType(passwordFieldType === 'password' ? 'text' : 'password')}
+                          >
+                            {passwordFieldType === 'password' ? <EyeClosed /> : <Eye />}
+                          </Button>
+                        }
                         {...field}
                       />
                     </FormControl>
@@ -92,7 +104,12 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
                   {error}
                 </p>
               )}
-              <Button type='submit'>Submit</Button>
+              <Button
+                type='submit'
+                isLoading={form.formState.isSubmitting}
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>

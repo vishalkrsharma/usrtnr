@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Eye, EyeClosed } from 'lucide-react';
 
 const formSchema = z
   .object({
@@ -55,6 +56,9 @@ const formSchema = z
 type FormSchemaType = z.infer<typeof formSchema>;
 
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const [error, setError] = useState<string | null>(null);
+  const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
+  const [repeatPasswordFieldType, setRepeatPasswordFieldType] = useState<'password' | 'text'>('password');
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,8 +67,6 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       repeatPassword: '',
     },
   });
-
-  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -120,17 +122,28 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               />
               <FormField
                 control={form.control}
-                name='password'
+                name={'password'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
+                        type={passwordFieldType}
                         placeholder='••••••••'
+                        rightElement={
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            className='bg-transparent aspect-square rounded-md p-0'
+                            onClick={() => setPasswordFieldType(passwordFieldType === 'password' ? 'text' : 'password')}
+                          >
+                            {passwordFieldType === 'password' ? <EyeClosed /> : <Eye />}
+                          </Button>
+                        }
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -143,12 +156,22 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                     <FormLabel>Repeat Password</FormLabel>
                     <FormControl>
                       <Input
-                        type='password'
+                        type={repeatPasswordFieldType}
                         placeholder='••••••••'
+                        rightElement={
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            className='bg-transparent aspect-square rounded-md p-0'
+                            onClick={() => setRepeatPasswordFieldType(repeatPasswordFieldType === 'password' ? 'text' : 'password')}
+                          >
+                            {repeatPasswordFieldType === 'password' ? <EyeClosed /> : <Eye />}
+                          </Button>
+                        }
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -161,7 +184,12 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
                   {error}
                 </p>
               )}
-              <Button type='submit'>Submit</Button>
+              <Button
+                type='submit'
+                isLoading={form.formState.isSubmitting}
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>

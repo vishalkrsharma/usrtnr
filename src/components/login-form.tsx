@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeClosed } from 'lucide-react';
 
 const formSchema = z.object({
   email: z
@@ -39,6 +40,9 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const [error, setError] = useState<string | null>(null);
+  const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
+
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,8 +50,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       password: '',
     },
   });
-
-  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -104,8 +106,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        type='password'
+                        type={passwordFieldType}
                         placeholder='••••••••'
+                        rightElement={
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            className='bg-transparent aspect-square rounded-md p-0'
+                            onClick={() => setPasswordFieldType(passwordFieldType === 'password' ? 'text' : 'password')}
+                          >
+                            {passwordFieldType === 'password' ? <EyeClosed /> : <Eye />}
+                          </Button>
+                        }
                         {...field}
                       />
                     </FormControl>
@@ -121,7 +134,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                   {error}
                 </p>
               )}
-              <Button type='submit'>Submit</Button>
+              <Button
+                type='submit'
+                isLoading={form.formState.isSubmitting}
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>

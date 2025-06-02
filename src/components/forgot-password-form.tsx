@@ -27,14 +27,13 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const [error, setError] = useState<string | null>(null);
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
     },
   });
-
-  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (values: FormSchemaType) => {
     const supabase = createClient();
@@ -100,7 +99,12 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                     {error}
                   </p>
                 )}
-                <Button type='submit'>Submit</Button>
+                <Button
+                  type='submit'
+                  isLoading={form.formState.isSubmitting}
+                >
+                  Submit
+                </Button>
               </form>
             </Form>
           </CardContent>
