@@ -1,7 +1,5 @@
-import { PrismaClient } from '@/generated/prisma';
+import { prisma } from '@/lib/db';
 import { notFound, permanentRedirect } from 'next/navigation';
-
-const prisma = new PrismaClient();
 
 export default async function RedirectPage({ params }: { params: Promise<{ shortRoute: string }> }) {
   const { shortRoute } = await params;
