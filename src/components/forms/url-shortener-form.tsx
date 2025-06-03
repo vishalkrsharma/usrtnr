@@ -1,0 +1,111 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { CircleAlert, Send } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { urlShortenerService } from '@/services/url.services';
+import { useDialogStore } from '@/hooks/use-dialog-store';
+import { EDialogType } from '@/types/dialog';
+import { useAutoTooltip } from '@/hooks/use-auto-tooltip';
+
+const formSchema = z.object({
+  url: z
+    .string()
+    .min(1, {
+      message: 'URL is required',
+    })
+    .url({
+      message: 'Invalid URL format',
+    }),
+});
+
+type FormSchemaType = z.infer<typeof formSchema>;
+
+export default function UrlShortenerForm() {
+  const { onOpen } = useDialogStore();
+  const form = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      url: '',
+    },
+  });
+
+  const { isTooltipOpen, setIsTooltipOpen } = useAutoTooltip(!!form.formState.errors.url);
+
+  const onSubmit = async (values: FormSchemaType) => {
+    const res = await urlShortenerService(values);
+
+    if (res.success) {
+      onOpen({
+        type: EDialogType.SHORTURL,
+        dialogData: res.data,
+      });
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='w-2/3 max-w-[800px]'
+      >
+        <FormField
+          control={form.control}
+          name='url'
+          render={({ field }) => (
+            <FormItem className=''>
+              <FormControl>
+                <Input
+                  placeholder='https://website.com'
+                  className='py-7 px-6 pr-12 w-full rounded-3xl'
+                  rightElementClassName='right-4'
+                  rightElement={
+                    form.formState.errors.url ? (
+                      <Tooltip
+                        open={isTooltipOpen}
+                        onOpenChange={setIsTooltipOpen}
+                      >
+                        <TooltipTrigger>
+                          <Badge
+                            variant='destructive'
+                            className='rounded-full aspect-square [&>svg]:size-5 text-destructive-foreground'
+                          >
+                            <CircleAlert />
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          className={cn('', form.formState.errors.url ? 'bg-destructive text-destructive-foreground' : null)}
+                          tooltipArrowClassName={cn('', form.formState.errors.url ? 'bg-destructive fill-destructive' : null)}
+                        >
+                          <p>{form.formState.errors.url.message}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <Button
+                        size='icon'
+                        variant='default'
+                        type='submit'
+                        className='rounded-full'
+                        isLoading={form.formState.isSubmitting}
+                      >
+                        <Send />
+                      </Button>
+                    )
+                  }
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  );
+}

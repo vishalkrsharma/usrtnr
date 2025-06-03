@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import '@/app/globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { firaCode } from '@/lib/fonts';
+import DialogProvider from '@/providers/dialog-provider';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +21,7 @@ export default function RootLayout({
       lang='en'
       suppressHydrationWarning
     >
-      <body className={`${firaCode.variable} font-mono antialiased`}>
+      <body className={`${firaCode.variable} font-mono antialiased min-h-screen relative`}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
@@ -27,6 +29,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <DialogProvider />
+          <ModeToggle className='absolute right-4 bottom-4' />
         </ThemeProvider>
       </body>
     </html>
