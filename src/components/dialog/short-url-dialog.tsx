@@ -13,7 +13,7 @@ export default function ShortUrlDialog() {
 
   const data = dialogData as Url;
 
-  const shortUrl = process.env.NEXT_PUBLIC_VERCEL_URL + '/' + data?.shortRoute;
+  const shortUrl = process.env.NEXT_PUBLIC_BASE_URL + '/' + data?.shortRoute;
 
   const copyShortUrlToClipboard = () => {
     navigator.clipboard.writeText(shortUrl);
