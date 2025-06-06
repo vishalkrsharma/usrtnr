@@ -10,7 +10,7 @@ import { CircleAlert, Send } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { urlShortenerService } from '@/services/url.services';
+import { urlShortenerAction } from '@/actions/url.action';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EDialogType } from '@/types/dialog';
 import { useAutoTooltip } from '@/hooks/use-auto-tooltip';
@@ -40,7 +40,7 @@ export default function UrlShortenerForm() {
   const { isTooltipOpen, setIsTooltipOpen } = useAutoTooltip(!!form.formState.errors.url);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const res = await urlShortenerService(values);
+    const res = await urlShortenerAction(values);
 
     if (res.success) {
       onOpen({

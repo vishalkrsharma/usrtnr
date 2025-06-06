@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/db';
 import { toBase62 } from '@/lib/utils';
 
-export const urlShortenerService = async ({ url }: { url: string }) => {
+export const urlShortenerAction = async ({ url }: { url: string }) => {
   try {
     const createdUrl = await prisma.url.create({
       data: {
