@@ -53,7 +53,7 @@ export default function UrlShortenerForm() {
         action: {
           label: 'Retry',
           onClick: () => {
-            setIsTooltipOpen(false);
+            onSubmit(values);
           },
         },
       });

@@ -13,6 +13,7 @@ export const urlShortenerAction = async ({ url }: { url: string }): Promise<TRes
         originalUrl: url,
         shortRoute: '',
       },
+      a,
     });
 
     const shortRoute = toBase62({ id: createdUrl.id });
