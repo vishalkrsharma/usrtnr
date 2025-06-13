@@ -1,12 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Url } from '@/generated/prisma';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EDialogType } from '@/types/dialog';
 import { Copy, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function ShortUrlDialog() {
   const { type, isOpen, onClose, dialogData } = useDialogStore();
@@ -17,6 +18,7 @@ export default function ShortUrlDialog() {
 
   const copyShortUrlToClipboard = () => {
     navigator.clipboard.writeText(shortUrl);
+    toast.success('Short URL copied to clipboard!');
   };
 
   if (!data) return null;
@@ -29,6 +31,7 @@ export default function ShortUrlDialog() {
       <DialogContent showCloseButton={false}>
         <DialogHeader>
           <DialogTitle className='text-center'>Your URL is ready!</DialogTitle>
+          <DialogDescription className='text-center'>Here is your shortened URL. You can copy it or open it in a new tab.</DialogDescription>
         </DialogHeader>
         <div className=' flex flex-col justify-center items-center gap-4'>
           <Link
