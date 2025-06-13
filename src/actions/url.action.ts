@@ -1,9 +1,11 @@
 'use server';
 
+import { Url } from '@/generated/prisma';
 import { prisma } from '@/lib/db';
 import { toBase62 } from '@/lib/utils';
+import { TResponse } from '@/types/global';
 
-export const urlShortenerAction = async ({ url }: { url: string }) => {
+export const urlShortenerAction = async ({ url }: { url: string }): Promise<TResponse<Url>> => {
   try {
     const createdUrl = await prisma.url.create({
       data: {
@@ -23,12 +25,16 @@ export const urlShortenerAction = async ({ url }: { url: string }) => {
     return {
       success: true,
       data: updatedUrl,
+      message: 'Short URL created successfully',
+      error: null,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error in urlShortenerService:', error);
     return {
       success: false,
-      error: 'Failed to create short URL',
+      error: error as Error,
+      data: null,
+      message: 'Failed to create short URL',
     };
   }
 };

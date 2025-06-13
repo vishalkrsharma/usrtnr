@@ -14,6 +14,7 @@ import { urlShortenerAction } from '@/actions/url.action';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EDialogType } from '@/types/dialog';
 import { useAutoTooltip } from '@/hooks/use-auto-tooltip';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   url: z
@@ -46,6 +47,15 @@ export default function UrlShortenerForm() {
       onOpen({
         type: EDialogType.SHORTURL,
         dialogData: res.data,
+      });
+    } else {
+      toast.error(res.error?.message || 'An error occurred while creating the short URL', {
+        action: {
+          label: 'Retry',
+          onClick: () => {
+            setIsTooltipOpen(false);
+          },
+        },
       });
     }
   };
