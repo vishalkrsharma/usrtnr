@@ -60,7 +60,7 @@ export function LogInForm({ className, ...props }: React.ComponentPropsWithoutRe
       const { error } = await supabase.auth.signInWithPassword(values);
       if (error) throw error;
 
-      router.push('/protected');
+      router.push('/dashboard');
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred');
     }

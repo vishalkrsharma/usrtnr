@@ -5,13 +5,14 @@ import { prisma } from '@/lib/db';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
 
-export const urlShortenerAction = async ({ url }: { url: string }): Promise<TResponse<Url>> => {
+export const urlShortenerAction = async ({ url, userId }: { url: string; userId?: string }): Promise<TResponse<Url>> => {
   try {
     const createdUrl = await prisma.url.create({
       data: {
         id: BigInt(Date.now()),
         originalUrl: url,
         shortRoute: '',
+        userId,
       },
     });
 

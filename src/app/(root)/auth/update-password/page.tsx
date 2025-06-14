@@ -1,6 +1,6 @@
 import { UpdatePasswordForm } from '@/components/forms/update-password-form';
 
-export default function UpdatePasswordPage() {
+const UpdatePasswordPage = () => {
   return (
     <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
       <div className='w-full max-w-sm'>
@@ -8,4 +8,6 @@ export default function UpdatePasswordPage() {
       </div>
     </div>
   );
-}
+};
+
+export default UpdatePasswordPage;

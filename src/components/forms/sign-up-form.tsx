@@ -77,7 +77,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       const { error } = await supabase.auth.signUp({
         ...values,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${window.location.origin}/dashboard`,
         },
       });
       if (error) throw error;

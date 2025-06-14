@@ -5,23 +5,24 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider =      "prisma-client-js"
+  output   =      "../src/generated/prisma"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  
   url      = env("DATABASE_URL")
 }
 
 model Url {
-  id BigInt @id
-  shortRoute String @unique 
-  originalUrl String 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          BigInt    @id
+  shortRoute  String    @unique
+  originalUrl String
+  userId      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([originalUrl])
+  @@index([userId])
 }

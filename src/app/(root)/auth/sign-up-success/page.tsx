@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function SignUpSuccessPage() {
+const SignUpSuccessPage = () => {
   return (
     <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
       <div className='w-full max-w-sm'>
@@ -20,4 +20,6 @@ export default function SignUpSuccessPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignUpSuccessPage;

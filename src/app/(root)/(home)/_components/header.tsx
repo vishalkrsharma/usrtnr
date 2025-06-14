@@ -1,4 +1,4 @@
-export default function Header() {
+const Header = () => {
   return (
     <header className='flex-1 flex flex-col justify-end items-center gap-4'>
       <h1 className='text-center font-black text-4xl'>urstnr</h1>
@@ -8,4 +8,6 @@ export default function Header() {
       </p>
     </header>
   );
-}
+};
+
+export default Header;
