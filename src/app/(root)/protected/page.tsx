@@ -1,22 +1,22 @@
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
-import { LogoutButton } from '@/components/logout-button'
-import { createClient } from '@/lib/supabase/server'
+import { LogoutButton } from '@/components/logout-button';
+import { createClient } from '@/lib/supabase/server';
 
 export default async function ProtectedPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect('/auth/login')
+    redirect('/auth/log-in');
   }
 
   return (
-    <div className="flex h-svh w-full items-center justify-center gap-2">
+    <div className='flex h-svh w-full items-center justify-center gap-2'>
       <p>
         Hello <span>{data.user.email}</span>
       </p>
       <LogoutButton />
     </div>
-  )
+  );
 }
