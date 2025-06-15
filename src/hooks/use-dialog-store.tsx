@@ -5,7 +5,7 @@ export const useDialogStore = create<TDialogStore>((set) => ({
   type: null,
   isOpen: false,
   dialogData: null,
-  onOpen: ({ type, dialogData }: { type: EDialogType[keyof EDialogType]; dialogData: unknown }) =>
+  onOpen: ({ type, dialogData }: { type: EDialogType[keyof EDialogType]; dialogData?: unknown }) =>
     set({
       type,
       isOpen: true,

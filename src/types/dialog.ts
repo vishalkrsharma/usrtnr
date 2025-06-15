@@ -1,11 +1,12 @@
 export enum EDialogType {
-  SHORTURL = 'SHORTURL',
+  SHORT_URL = 'SHORT_URL',
+  SHORT_URL_CREATE = 'SHORT_URL_CREATE',
 }
 
 export type TDialogStore = {
   type: EDialogType[keyof EDialogType] | null;
   isOpen: boolean;
   dialogData: unknown;
-  onOpen: ({ type, dialogData }: { type: EDialogType[keyof EDialogType]; dialogData: unknown }) => void;
+  onOpen: ({ type, dialogData }: { type: EDialogType[keyof EDialogType]; dialogData?: unknown }) => void;
   onClose: () => void;
 };

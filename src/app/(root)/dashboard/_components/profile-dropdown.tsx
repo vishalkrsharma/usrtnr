@@ -9,17 +9,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/ui/user-avatar';
-import { createClient } from '@/lib/supabase/client';
+import { clearSession } from '@/lib/session';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 
-export default function ProfileDropdown({ userData }: { userData: User }) {
+const ProfileDropdown = ({ userData }: { userData: User }) => {
   const router = useRouter();
 
   const logout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.replace('/auth/log-in');
+    await clearSession();
   };
 
   return (
@@ -36,4 +34,6 @@ export default function ProfileDropdown({ userData }: { userData: User }) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default ProfileDropdown;

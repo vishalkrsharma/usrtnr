@@ -1,12 +1,13 @@
-'use client';
+import ShortenUrlButton from '@/app/(root)/dashboard/_components/shorten-url-button';
+import { getSession } from '@/lib/session';
 
-import { Button } from '@/components/ui/button';
+const Header = async ({ title }: { title: string }) => {
+  const userData = await getSession();
 
-const Header = ({ title }: { title: string }) => {
   return (
     <div className='flex justify-between items-center gap-4'>
       <h2>{title}</h2>
-      <Button></Button>
+      <ShortenUrlButton userId={userData.id} />
     </div>
   );
 };

@@ -2,14 +2,14 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Link } from '@/components/ui/link';
 import { Url } from '@/generated/prisma';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EDialogType } from '@/types/dialog';
-import { Copy, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+import { Copy, ExternalLink, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 
-export default function ShortUrlDialog() {
+const ShortUrlDialog = () => {
   const { type, isOpen, onClose, dialogData } = useDialogStore();
 
   const data = dialogData as Url;
@@ -25,7 +25,7 @@ export default function ShortUrlDialog() {
 
   return (
     <Dialog
-      open={isOpen && type === EDialogType.SHORTURL}
+      open={isOpen && type === EDialogType.SHORT_URL}
       onOpenChange={onClose}
     >
       <DialogContent showCloseButton={false}>
@@ -33,10 +33,10 @@ export default function ShortUrlDialog() {
           <DialogTitle className='text-center'>Your URL is ready!</DialogTitle>
           <DialogDescription className='text-center'>Here is your shortened URL. You can copy it or open it in a new tab.</DialogDescription>
         </DialogHeader>
-        <div className=' flex flex-col justify-center items-center gap-4'>
+        <div className='flex flex-col justify-center items-center gap-6'>
           <Link
             href={data.originalUrl}
-            className='hover:underline underline-offset-4 text-muted-foreground'
+            className='text-muted-foreground'
           >
             {data.originalUrl}
           </Link>
@@ -53,14 +53,30 @@ export default function ShortUrlDialog() {
               <Link
                 href={shortUrl}
                 target='_blank'
-                className="inline-flex items-center justify-center gap-2 transition-all [&_svg:not([class*='size-'])]:size-4 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9 rounded-full"
+                variant='outline'
+                size='icon'
+                className='rounded-full'
               >
                 <ExternalLink />
               </Link>
             </div>
           </div>
+          <div className='flex justify-between items-center'>
+            <p className='text-sm text-muted-foreground'>Sign up to track clicks and get detailed analytics for your link.</p>
+            <Link
+              variant='secondary'
+              size='sm'
+              href={`/auth/sign-up?shortUrlId=${data.id}`}
+            >
+              <UserPlus />
+              <span>Create Account</span>
+              <span className='sr-only'>create account</span>
+            </Link>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default ShortUrlDialog;
