@@ -7,10 +7,12 @@ import { Url } from '@/generated/prisma';
 import { useDialogStore } from '@/hooks/use-dialog-store';
 import { EDialogType } from '@/types/dialog';
 import { Copy, ExternalLink, UserPlus } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 const ShortUrlDialog = () => {
   const { type, isOpen, onClose, dialogData } = useDialogStore();
+  const pathname = usePathname();
 
   const data = dialogData as Url;
 
@@ -61,18 +63,20 @@ const ShortUrlDialog = () => {
               </Link>
             </div>
           </div>
-          <div className='flex justify-between items-center'>
-            <p className='text-sm text-muted-foreground'>Sign up to track clicks and get detailed analytics for your link.</p>
-            <Link
-              variant='secondary'
-              size='sm'
-              href={`/auth/log-in?shortUrlId=${data.id}`}
-            >
-              <UserPlus />
-              <span>Create Account</span>
-              <span className='sr-only'>create account</span>
-            </Link>
-          </div>
+          {!pathname.includes('dashboard') ? (
+            <div className='flex justify-between items-center'>
+              <p className='text-sm text-muted-foreground'>Sign up to track clicks and get detailed analytics for your link.</p>
+              <Link
+                variant='secondary'
+                size='sm'
+                href={`/auth/log-in?shortUrlId=${data.id}`}
+              >
+                <UserPlus />
+                <span>Create Account</span>
+                <span className='sr-only'>create account</span>
+              </Link>
+            </div>
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>
