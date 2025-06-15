@@ -1,14 +1,18 @@
 'use client';
 
+import { TToastVariant } from '@/types/toast';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-type TToastVariant = 'success' | 'error' | 'warning' | 'info' | 'loading';
-
 const ToastRenderer = ({ message, variant }: { message: string; variant: TToastVariant }) => {
   useEffect(() => {
-    console.log('aaa');
-    toast[variant]?.(message) || toast(message);
+    if (message) {
+      if (variant in toast) {
+        (toast[variant] as (message: string) => void)(message);
+      } else {
+        toast(message);
+      }
+    }
   }, [message, variant]);
 
   return null;

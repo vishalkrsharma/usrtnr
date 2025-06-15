@@ -4,7 +4,6 @@ import ToastRenderer from '@/components/helper/toast-renderer';
 
 const DashboardPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
   const shortUrlId = ((await searchParams).shortUrlId as string | undefined) ? BigInt((await searchParams).shortUrlId as string) : undefined;
-  let data;
 
   if (!shortUrlId) {
     return (
@@ -14,7 +13,7 @@ const DashboardPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
     );
   }
 
-  data = await addUrlToAccountAction({ shortUrlId });
+  const data = await addUrlToAccountAction({ shortUrlId });
 
   return (
     <main className='w-full'>

@@ -3,7 +3,7 @@
 import ShortUrlCreateDialog from '@/components/dialog/short-url-create-dialog';
 import ShortUrlDialog from '@/components/dialog/short-url-dialog';
 import { useDialogStore } from '@/hooks/use-dialog-store';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function DialogProvider() {
@@ -12,7 +12,7 @@ export default function DialogProvider() {
 
   useEffect(() => {
     onClose();
-  }, [pathname]);
+  }, [pathname, onClose]);
 
   return (
     <>

@@ -11,11 +11,8 @@ import {
 import { UserAvatar } from '@/components/ui/user-avatar';
 import { clearSession } from '@/lib/session';
 import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
 
 const ProfileDropdown = ({ userData }: { userData: User }) => {
-  const router = useRouter();
-
   const logout = async () => {
     await clearSession();
   };
