@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeClosed } from 'lucide-react';
+import { Link } from '@/components/ui/link';
 
 const formSchema = z
   .object({
@@ -59,6 +60,8 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [error, setError] = useState<string | null>(null);
   const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
   const [repeatPasswordFieldType, setRepeatPasswordFieldType] = useState<'password' | 'text'>('password');
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -185,11 +188,15 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               <Button
                 type='submit'
                 isLoading={form.formState.isSubmitting}
+                className='w-full'
               >
                 Submit
               </Button>
             </form>
           </Form>
+          <div className='text-xs text-muted-foreground'>
+            Don&#39;t have an account? <Link href={`/auth/sign-up${queryString ? `?${queryString}` : ''}`}>Sign up</Link>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -66,7 +66,7 @@ const ShortUrlDialog = () => {
             <Link
               variant='secondary'
               size='sm'
-              href={`/auth/sign-up?shortUrlId=${data.id}`}
+              href={`/auth/log-in?shortUrlId=${data.id}`}
             >
               <UserPlus />
               <span>Create Account</span>

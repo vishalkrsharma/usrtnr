@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed } from 'lucide-react';
+import { Link } from '@/components/ui/link';
 
 const formSchema = z.object({
   email: z
@@ -42,6 +43,8 @@ type FormSchemaType = z.infer<typeof formSchema>;
 export function LogInForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [error, setError] = useState<string | null>(null);
   const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
 
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
@@ -60,7 +63,7 @@ export function LogInForm({ className, ...props }: React.ComponentPropsWithoutRe
       const { error } = await supabase.auth.signInWithPassword(values);
       if (error) throw error;
 
-      router.push('/dashboard');
+      router.push(`/dashboard${queryString ? `?${queryString}` : ''}`);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred');
     }
@@ -76,7 +79,7 @@ export function LogInForm({ className, ...props }: React.ComponentPropsWithoutRe
           <CardTitle className='text-2xl'>Login</CardTitle>
           <CardDescription>Enter your email below to login to your account</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='space-y-4'>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -138,11 +141,15 @@ export function LogInForm({ className, ...props }: React.ComponentPropsWithoutRe
               <Button
                 type='submit'
                 isLoading={form.formState.isSubmitting}
+                className='w-full'
               >
                 Submit
               </Button>
             </form>
           </Form>
+          <div className='text-xs text-muted-foreground'>
+            Don&#39;t have an account? <Link href={`/auth/sign-up${queryString ? `?${queryString}` : ''}`}>Sign up</Link>
+          </div>
         </CardContent>
       </Card>
     </div>
