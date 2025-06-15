@@ -16,13 +16,32 @@ datasource db {
 }
 
 model Url {
-  id          BigInt    @id
-  shortRoute  String    @unique
-  originalUrl String
-  userId      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            BigInt    @id
+  shortRoute    String    @unique
+  originalUrl   String
+  userId        String?
+  doAnalyze      Boolean   @default(false)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  analytics     Analytics[]
 
   @@index([originalUrl])
   @@index([userId])
+}
+
+model Analytics {
+  id              Int       @id @default(autoincrement()) 
+  shortRoute      String
+  ip              String?
+  userAgent       String?
+  referer         String?
+  host            String?
+  cookie          String?
+  acceptLanguage  String?
+
+  url             Url       @relation(fields: [shortRoute], references: [shortRoute])
+
+  createdAt       DateTime  @default(now())
 }

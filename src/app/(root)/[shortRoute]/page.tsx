@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db';
-import { notFound, permanentRedirect } from 'next/navigation';
+import { notFound, permanentRedirect, redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }> }) => {
   const { shortRoute } = await params;
@@ -11,6 +12,26 @@ const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }
   if (!record) {
     notFound();
   }
+
+  if (!record.doAnalyze) {
+    redirect(record.originalUrl);
+  }
+
+  const headersList = await headers();
+
+  // Create analytics record in background
+  prisma.analytics
+    .create({
+      data: {
+        shortRoute,
+        ip: headersList.get('x-forwarded-for') || headersList.get('x-real-ip'),
+        userAgent: headersList.get('user-agent'),
+        referer: headersList.get('referer'),
+        host: headersList.get('host'),
+        acceptLanguage: headersList.get('accept-language'),
+      },
+    })
+    .catch(console.error);
 
   permanentRedirect(record.originalUrl);
 };
