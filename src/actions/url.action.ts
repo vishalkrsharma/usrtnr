@@ -79,3 +79,27 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint
     };
   }
 };
+
+export const getAllUrlsByUserId = async ({ userId }: { userId: string }): Promise<TResponse<Url[]>> => {
+  try {
+    const urls = await prisma.url.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      success: true,
+      data: urls ?? [],
+      message: 'URLs retrieved successfully',
+      error: null,
+    };
+  } catch (error) {
+    console.error('Error in getAllUrlsByUserId:', error);
+    return {
+      success: false,
+      error: error as Error,
+      data: null,
+      message: 'Failed to retrieve URLs',
+    };
+  }
+};

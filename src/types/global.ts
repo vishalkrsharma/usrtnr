@@ -4,3 +4,8 @@ export type TResponse<T> = {
   error?: Error | null;
   message: string;
 };
+
+export type TNavLink = {
+  title: string;
+  href: string;
+};
