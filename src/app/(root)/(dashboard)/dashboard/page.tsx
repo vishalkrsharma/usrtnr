@@ -1,5 +1,5 @@
 import { addUrlToAccountAction } from '@/actions/url.action';
-import DashboardContent from '@/app/(root)/dashboard/_components/dashboard-content';
+import DashboardContent from '@/app/(root)/(dashboard)/dashboard/_components/dashboard-content';
 import ToastRenderer from '@/components/helper/toast-renderer';
 
 const DashboardPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {

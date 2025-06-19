@@ -1,7 +1,7 @@
 'use server';
 
 import { Url } from '@/generated/prisma';
-import { prisma } from '@/lib/db';
+import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
@@ -76,6 +76,30 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint
       error: error as Error,
       data: null,
       message: 'Failed to add URL to account',
+    };
+  }
+};
+
+export const getAllUrlsByUserId = async ({ userId }: { userId: string }): Promise<TResponse<Url[]>> => {
+  try {
+    const urls = await prisma.url.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      success: true,
+      data: urls ?? [],
+      message: 'URLs retrieved successfully',
+      error: null,
+    };
+  } catch (error) {
+    console.error('Error in getAllUrlsByUserId:', error);
+    return {
+      success: false,
+      error: error as Error,
+      data: null,
+      message: 'Failed to retrieve URLs',
     };
   }
 };

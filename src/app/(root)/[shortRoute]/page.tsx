@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+import prisma from '@/lib/prisma';
 import { notFound, permanentRedirect, redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 
