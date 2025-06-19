@@ -7,7 +7,7 @@ const Navbar = async () => {
   const userData = await getSession();
 
   return (
-    <div className='border-b shadow-2xl fixed w-full bg-background'>
+    <div className='border-b shadow-2xl fixed w-full bg-background z-50'>
       <div className='container mx-auto px-4'>
         <nav className='h-16 flex justify-between items-center'>
           <Link

@@ -1,4 +1,4 @@
-import ShortenUrlButton from '@/app/(root)/(dashboard)/(root)/_components/shorten-url-button';
+import ShortenUrlButton from '@/app/(root)/(dashboard)/dashboard/_components/shorten-url-button';
 import Header from '@/components/helper/header';
 import { getSession } from '@/lib/session';
 

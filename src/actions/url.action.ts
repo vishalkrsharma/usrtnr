@@ -1,7 +1,7 @@
 'use server';
 
 import { Url } from '@/generated/prisma';
-import { prisma } from '@/lib/db';
+import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
