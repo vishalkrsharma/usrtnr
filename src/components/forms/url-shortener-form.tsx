@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { urlShortenerAction } from '@/actions/url.action';
-import { useDialogStore } from '@/hooks/use-dialog-store';
+import { useDialog } from '@/hooks/use-dialog';
 import { EDialogType } from '@/types/dialog';
 import { useAutoTooltip } from '@/hooks/use-auto-tooltip';
 import { toast } from 'sonner';
@@ -30,7 +30,7 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 export default function UrlShortenerForm({ className, userId }: { className?: string; userId?: string }) {
-  const { onOpen } = useDialogStore();
+  const { onOpen } = useDialog();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,7 +64,7 @@ export default function UrlShortenerForm({ className, userId }: { className?: st
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn('w-2/3 max-w-[800px]', className)}
+        className={cn('w-2/3 max-w-[800px] flex-1', className)}
       >
         <FormField
           control={form.control}

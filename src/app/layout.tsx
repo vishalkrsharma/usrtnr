@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-
 import '@/app/globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { firaCode } from '@/lib/fonts';
 import DialogProvider from '@/providers/dialog-provider';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { Toaster } from '@/components/ui/sonner';
+import AlertDialogProvider from '@/providers/alert-dialog-provider';
 
 export const metadata: Metadata = {
   title: 'usrtnr',
@@ -36,6 +36,7 @@ export default function RootLayout({
             position='top-center'
           />
           <DialogProvider />
+          <AlertDialogProvider />
           <ModeToggle className='absolute right-4 bottom-4' />
         </ThemeProvider>
       </body>

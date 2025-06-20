@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { default as NextLink } from 'next/link';
 import { cva, type VariantProps } from 'class-variance-authority';
 

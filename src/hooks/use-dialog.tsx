@@ -1,7 +1,7 @@
-import { EDialogType, TDialogStore } from '@/types/dialog';
+import { EDialogType, TDialog } from '@/types/dialog';
 import { create } from 'zustand';
 
-export const useDialogStore = create<TDialogStore>((set) => ({
+export const useDialog = create<TDialog>((set) => ({
   type: null,
   isOpen: false,
   dialogData: null,

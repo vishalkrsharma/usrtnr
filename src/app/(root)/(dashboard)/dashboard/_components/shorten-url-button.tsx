@@ -1,12 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useDialogStore } from '@/hooks/use-dialog-store';
+import { useDialog } from '@/hooks/use-dialog';
 import { EDialogType } from '@/types/dialog';
 import { Link } from 'lucide-react';
 
 const ShortenUrlButton = ({ userId }: { userId: string }) => {
-  const { onOpen } = useDialogStore();
+  const { onOpen } = useDialog();
 
   return (
     <Button

@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
+import { revalidatePath } from 'next/cache';
 
 export const urlShortenerAction = async ({ url, userId }: { url: string; userId?: string }): Promise<TResponse<Url>> => {
   try {
@@ -23,6 +24,8 @@ export const urlShortenerAction = async ({ url, userId }: { url: string; userId?
       where: { id: createdUrl.id },
       data: { shortRoute },
     });
+
+    revalidatePath('/urls');
 
     return {
       success: true,
@@ -100,6 +103,31 @@ export const getAllUrlsByUserId = async ({ userId }: { userId: string }): Promis
       error: error as Error,
       data: null,
       message: 'Failed to retrieve URLs',
+    };
+  }
+};
+
+export const deleteUrlByIdAction = async ({ id }: { id: bigint }): Promise<TResponse<Url>> => {
+  try {
+    const url = await prisma.url.delete({
+      where: { id: id },
+    });
+
+    revalidatePath('/urls');
+
+    return {
+      success: true,
+      data: url,
+      message: 'URL deleted successfully',
+      error: null,
+    };
+  } catch (error) {
+    console.error('Error in deleteUrlByIdAction:', error);
+    return {
+      success: false,
+      error: error as Error,
+      data: null,
+      message: 'Failed to delete URL',
     };
   }
 };

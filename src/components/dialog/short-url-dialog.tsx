@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Link } from '@/components/ui/link';
 import { Url } from '@/generated/prisma';
-import { useDialogStore } from '@/hooks/use-dialog-store';
+import { useDialog } from '@/hooks/use-dialog';
 import { EDialogType } from '@/types/dialog';
 import { Copy, ExternalLink, UserPlus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 const ShortUrlDialog = () => {
-  const { type, isOpen, onClose, dialogData } = useDialogStore();
+  const { type, isOpen, onClose, dialogData } = useDialog();
   const pathname = usePathname();
 
   const data = dialogData as Url;

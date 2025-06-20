@@ -1,12 +1,12 @@
 'use client';
 
-import { useDialogStore } from '@/hooks/use-dialog-store';
+import { useDialog } from '@/hooks/use-dialog';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { EDialogType } from '@/types/dialog';
 import UrlShortenerForm from '@/components/forms/url-shortener-form';
 
 const ShortUrlCreateDialog = () => {
-  const { type, isOpen, onClose, dialogData } = useDialogStore();
+  const { type, isOpen, onClose, dialogData } = useDialog();
 
   const data = dialogData as { userId: string };
   const open = isOpen && type === EDialogType.SHORT_URL_CREATE;

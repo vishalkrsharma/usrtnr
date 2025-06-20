@@ -6,6 +6,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { SortIcon } from '@/components/helper/sort-icon';
 import AnalyzeStatusBadge from '@/components/helper/analyze-status-badge';
+import UrlsTableActions from '@/app/(root)/(dashboard)/urls/_components/urls-table-actions';
 
 export const urlsColumns: ColumnDef<Url>[] = [
   {
@@ -65,5 +66,9 @@ export const urlsColumns: ColumnDef<Url>[] = [
       </div>
     ),
     cell: ({ row }) => format(new Date(row.getValue('createdAt')), 'MMM dd, yyyy HH:mm'),
+  },
+  {
+    header: 'Actions',
+    cell: ({ row }) => <UrlsTableActions row={row} />,
   },
 ];

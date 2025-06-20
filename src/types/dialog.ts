@@ -3,7 +3,7 @@ export enum EDialogType {
   SHORT_URL_CREATE = 'SHORT_URL_CREATE',
 }
 
-export type TDialogStore = {
+export type TDialog = {
   type: EDialogType[keyof EDialogType] | null;
   isOpen: boolean;
   dialogData: unknown;

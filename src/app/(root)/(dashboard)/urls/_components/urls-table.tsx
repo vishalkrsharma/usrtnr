@@ -22,6 +22,8 @@ const URLsTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
     },
   });
 
+  console.log(data);
+
   return (
     <div className='rounded-md border'>
       <Table>
