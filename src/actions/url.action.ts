@@ -83,16 +83,41 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint
   }
 };
 
-export const getAllUrlsByUserId = async ({ userId }: { userId: string }): Promise<TResponse<Url[]>> => {
+export const getAllUrlsByUserId = async ({
+  userId,
+  page = 1,
+  limit = 10,
+}: {
+  userId: string;
+  page?: number;
+  limit?: number;
+}): Promise<TResponse<{ urls: Url[]; total: number }>> => {
   try {
-    const urls = await prisma.url.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
+    const offset = (page - 1) * limit;
+
+    const [urlsResult, totalResult] = await Promise.allSettled([
+      prisma.url.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+        skip: offset,
+        take: limit,
+      }),
+      prisma.url.count({
+        where: { userId },
+      }),
+    ]);
+
+    if (urlsResult.status === 'rejected' || totalResult.status === 'rejected') {
+      const error = urlsResult.status === 'rejected' ? urlsResult.reason : totalResult.status === 'rejected' ? totalResult.reason : new Error('Unknown error');
+      throw error;
+    }
 
     return {
       success: true,
-      data: urls ?? [],
+      data: {
+        urls: urlsResult.value,
+        total: totalResult.value,
+      },
       message: 'URLs retrieved successfully',
       error: null,
     };

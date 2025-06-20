@@ -1,28 +1,46 @@
 'use client';
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable, SortingState, getSortedRowModel } from '@tanstack/react-table';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable, getSortedRowModel, SortingState } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: number;
+  limit: number;
+  total: number;
 }
 
-const URLsTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) => {
+const URLsTable = <TData, TValue>({ columns, data, page, limit, total }: DataTableProps<TData, TValue>) => {
+  const router = useRouter();
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const pageCount = Math.ceil(total / limit);
+
   const table = useReactTable({
     data,
     columns,
+    manualPagination: true,
+    pageCount,
+    state: {
+      sorting,
+      pagination: {
+        pageIndex: page - 1,
+        pageSize: limit,
+      },
+    },
+    onPaginationChange: (updater) => {
+      const next = typeof updater === 'function' ? updater({ pageIndex: page - 1, pageSize: limit }) : updater;
+
+      router.push(`?page=${next.pageIndex + 1}&limit=${next.pageSize}`);
+    },
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
   });
-
-  console.log(data);
 
   return (
     <div className='rounded-md border'>
@@ -60,6 +78,46 @@ const URLsTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
           )}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className='flex items-center justify-between px-4 py-3 flex-wrap gap-2'>
+        <div>
+          <span className='text-sm text-muted-foreground'>
+            Page {page} of {pageCount}
+          </span>
+        </div>
+
+        <div className='flex flex-wrap gap-1'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => router.push(`?page=${page - 1}&limit=${limit}`)}
+            disabled={page <= 1}
+          >
+            Previous
+          </Button>
+
+          {Array.from({ length: pageCount }, (_, i) => i + 1).map((pg) => (
+            <Button
+              key={pg}
+              variant={pg === page ? 'default' : 'outline'}
+              size='sm'
+              onClick={() => router.push(`?page=${pg}&limit=${limit}`)}
+            >
+              {pg}
+            </Button>
+          ))}
+
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => router.push(`?page=${page + 1}&limit=${limit}`)}
+            disabled={page >= pageCount}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

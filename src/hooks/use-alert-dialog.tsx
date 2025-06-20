@@ -5,7 +5,6 @@ export const useAlertDialog = create<TAlertDialog>((set) => ({
   type: null,
   isOpen: false,
   alertDialogData: null,
-
   onOpen: ({ type, alertDialogData }: { type: EAlertDialogType[keyof EAlertDialogType] | null; alertDialogData?: unknown }) =>
     set({
       type,
