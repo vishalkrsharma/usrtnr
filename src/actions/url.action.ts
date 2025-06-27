@@ -1,6 +1,6 @@
 'use server';
 
-import { Url } from '@/generated/prisma';
+import { Prisma, Url } from '@/generated/prisma';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { toBase62 } from '@/lib/utils';
@@ -87,23 +87,30 @@ export const getAllUrlsByUserId = async ({
   userId,
   page = 1,
   limit = 10,
+  query,
 }: {
   userId: string;
   page?: number;
   limit?: number;
+  query?: string;
 }): Promise<TResponse<{ urls: Url[]; total: number }>> => {
   try {
     const offset = (page - 1) * limit;
 
+    const whereClause: Prisma.UrlWhereInput = { userId };
+    if (query && query.trim() !== '') {
+      whereClause.originalUrl = { contains: query, mode: 'insensitive' };
+    }
+
     const [urlsResult, totalResult] = await Promise.allSettled([
       prisma.url.findMany({
-        where: { userId },
+        where: whereClause,
         orderBy: { createdAt: 'desc' },
         skip: offset,
         take: limit,
       }),
       prisma.url.count({
-        where: { userId },
+        where: whereClause,
       }),
     ]);
 

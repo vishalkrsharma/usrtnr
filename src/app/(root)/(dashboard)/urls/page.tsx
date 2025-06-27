@@ -1,27 +1,22 @@
-import { getAllUrlsByUserId } from '@/actions/url.action';
-import AllURLsTable from '@/app/(root)/(dashboard)/urls/_components/urls-table';
-import { urlsColumns } from '@/app/(root)/(dashboard)/urls/_components/urls-columns';
+import UrlsTable from '@/app/(root)/(dashboard)/urls/_components/urls-table';
 import { getSession } from '@/lib/session';
+import SearchURLs from '@/app/(root)/(dashboard)/urls/_components/urls-table-tools';
 
 const AllURLsPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
   const userData = await getSession();
 
-  const { page, limit } = await searchParams;
-
-  const urls = await getAllUrlsByUserId({ userId: userData.id, page: Number(page) || 1, limit: Number(limit) || 5 });
-
-  if (!urls.success) {
-    throw new Error(urls.message || 'Failed to fetch URLs');
-  }
+  const { page, limit, query } = await searchParams;
 
   return (
-    <AllURLsTable
-      data={urls?.data?.urls ?? []}
-      columns={urlsColumns}
-      page={Number(page) || 1}
-      limit={Number(limit) || 10}
-      total={urls?.data?.total || 0}
-    />
+    <main className='space-y-8'>
+      <SearchURLs query={query as string} />
+      <UrlsTable
+        page={page as string}
+        limit={limit as string}
+        query={query as string}
+        userId={userData.id}
+      />
+    </main>
   );
 };
 
