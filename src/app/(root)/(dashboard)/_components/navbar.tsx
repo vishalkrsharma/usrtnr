@@ -10,14 +10,16 @@ const Navbar = async () => {
     <div className='border-b shadow-2xl fixed w-full bg-background z-50'>
       <div className='container mx-auto px-4'>
         <nav className='h-16 flex justify-between items-center'>
-          <Link
-            href='/'
-            className='font-black text-2xl'
-          >
-            usrtnr
-          </Link>
+          <div className='flex-1'>
+            <Link
+              href='/'
+              className='font-black text-2xl px-0'
+            >
+              usrtnr
+            </Link>
+          </div>
           <NavLinks />
-          <div className='flex justify-end items-center gap-4'>
+          <div className='flex justify-end items-center gap-4 flex-1'>
             <ProfileDropdown userData={userData} />
           </div>
         </nav>

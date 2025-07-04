@@ -27,7 +27,9 @@ const UrlsTableTools = ({ query = '' }: { query?: string }) => {
       params.delete('query');
     }
     router.push(`?${params.toString()}`);
-  }, [debouncedValue, router, searchParams.get('query')]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
 
   return (
     <div>

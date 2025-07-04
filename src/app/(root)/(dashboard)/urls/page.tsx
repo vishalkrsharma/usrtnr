@@ -1,10 +1,7 @@
 import UrlsTable from '@/app/(root)/(dashboard)/urls/_components/urls-table';
-import { getSession } from '@/lib/session';
 import SearchURLs from '@/app/(root)/(dashboard)/urls/_components/urls-table-tools';
 
 const AllURLsPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
-  const userData = await getSession();
-
   const { page, limit, query } = await searchParams;
 
   return (
@@ -14,7 +11,6 @@ const AllURLsPage = async ({ searchParams }: { searchParams: Promise<{ [key: str
         page={page as string}
         limit={limit as string}
         query={query as string}
-        userId={userData.id}
       />
     </main>
   );

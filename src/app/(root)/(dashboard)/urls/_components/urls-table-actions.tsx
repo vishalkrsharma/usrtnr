@@ -18,21 +18,6 @@ const UrlsTableActions = ({ row }: { row: Row<Url> }) => {
             variant='outline'
             size='icon'
             className='rounded-full'
-            href={`${process.env.NEXT_PUBLIC_BASE_URL}/${row.getValue('shortRoute')}`}
-          >
-            <ExternalLink />
-          </Link>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Visit Link</p>
-        </TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Link
-            variant='outline'
-            size='icon'
-            className='rounded-full'
             href={`/urls/${row.original.id}`}
           >
             <View />
@@ -40,6 +25,22 @@ const UrlsTableActions = ({ row }: { row: Row<Url> }) => {
         </TooltipTrigger>
         <TooltipContent>
           <p>View</p>
+        </TooltipContent>
+      </Tooltip>{' '}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Link
+            variant='outline'
+            size='icon'
+            className='rounded-full'
+            href={`${process.env.NEXT_PUBLIC_BASE_URL}/${row.getValue('shortRoute')}`}
+            target='_blank'
+          >
+            <ExternalLink />
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Visit Link</p>
         </TooltipContent>
       </Tooltip>
       <Tooltip>

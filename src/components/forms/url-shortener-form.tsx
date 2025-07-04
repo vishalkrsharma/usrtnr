@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export default function UrlShortenerForm({ className, userId }: { className?: string; userId?: string }) {
+export default function UrlShortenerForm({ className }: { className?: string }) {
   const { onOpen } = useDialog();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
@@ -41,7 +41,7 @@ export default function UrlShortenerForm({ className, userId }: { className?: st
   const { isTooltipOpen, setIsTooltipOpen } = useAutoTooltip(!!form.formState.errors.url);
 
   const onSubmit = async (values: FormSchemaType) => {
-    const res = await urlShortenerAction({ ...values, userId });
+    const res = await urlShortenerAction({ ...values });
 
     if (res.success) {
       onOpen({

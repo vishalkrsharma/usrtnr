@@ -5,7 +5,7 @@ import { useDialog } from '@/hooks/use-dialog';
 import { EDialogType } from '@/types/dialog';
 import { Link } from 'lucide-react';
 
-const ShortenUrlButton = ({ userId }: { userId: string }) => {
+const ShortenUrlButton = () => {
   const { onOpen } = useDialog();
 
   return (
@@ -13,9 +13,6 @@ const ShortenUrlButton = ({ userId }: { userId: string }) => {
       onClick={() =>
         onOpen({
           type: EDialogType.SHORT_URL_CREATE,
-          dialogData: {
-            userId,
-          },
         })
       }
     >

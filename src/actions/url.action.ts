@@ -1,20 +1,22 @@
 'use server';
 
-import { Prisma, Url } from '@/generated/prisma';
+import { Analytics, Prisma, Url } from '@/generated/prisma';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
 import { revalidatePath } from 'next/cache';
 
-export const urlShortenerAction = async ({ url, userId }: { url: string; userId?: string }): Promise<TResponse<Url>> => {
+export const urlShortenerAction = async ({ url }: { url: string }): Promise<TResponse<Url>> => {
   try {
+    const userData = await getSession();
+
     const createdUrl = await prisma.url.create({
       data: {
         id: BigInt(Date.now()),
         originalUrl: url,
         shortRoute: '',
-        userId,
+        userId: userData?.id,
       },
     });
 
@@ -46,6 +48,8 @@ export const urlShortenerAction = async ({ url, userId }: { url: string; userId?
 
 export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint }): Promise<TResponse<Url>> => {
   try {
+    const userData = await getSession();
+
     const url = await prisma.url.findUnique({
       where: { id: shortUrlId },
     });
@@ -58,8 +62,6 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint
         message: 'URL not found',
       };
     }
-
-    const userData = await getSession();
 
     const updatedUrl = await prisma.url.update({
       where: { id: shortUrlId },
@@ -84,20 +86,19 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint
 };
 
 export const getAllUrlsByUserId = async ({
-  userId,
   page = 1,
   limit = 10,
   query,
 }: {
-  userId: string;
   page?: number;
   limit?: number;
   query?: string;
 }): Promise<TResponse<{ urls: Url[]; total: number }>> => {
   try {
+    const userData = await getSession();
     const offset = (page - 1) * limit;
 
-    const whereClause: Prisma.UrlWhereInput = { userId };
+    const whereClause: Prisma.UrlWhereInput = { userId: userData.id };
     if (query && query.trim() !== '') {
       whereClause.originalUrl = { contains: query, mode: 'insensitive' };
     }
@@ -139,6 +140,46 @@ export const getAllUrlsByUserId = async ({
   }
 };
 
+export const getUrlById = async ({ id }: { id: bigint }): Promise<TResponse<{ url: Url; analytics: Analytics[] }>> => {
+  try {
+    const userData = await getSession();
+
+    const url = await prisma.url.findUnique({
+      where: { id: id, userId: userData.id },
+    });
+
+    if (!url) {
+      return {
+        success: true,
+        data: null,
+        message: 'URL retrieved successfully',
+        error: null,
+      };
+    }
+
+    const analytics =
+      (await prisma.analytics.findMany({
+        where: { shortRoute: url.shortRoute },
+        orderBy: { createdAt: 'desc' },
+      })) ?? [];
+
+    return {
+      success: true,
+      data: { url, analytics },
+      message: 'URL retrieved successfully',
+      error: null,
+    };
+  } catch (error) {
+    console.error('Error in getUrlById:', error);
+    return {
+      success: false,
+      error: error as Error,
+      data: null,
+      message: 'Failed to retrieve URL',
+    };
+  }
+};
+
 export const deleteUrlByIdAction = async ({ id }: { id: bigint }): Promise<TResponse<Url>> => {
   try {
     const url = await prisma.url.delete({
@@ -160,6 +201,33 @@ export const deleteUrlByIdAction = async ({ id }: { id: bigint }): Promise<TResp
       error: error as Error,
       data: null,
       message: 'Failed to delete URL',
+    };
+  }
+};
+
+export const toggleUrlAnalyticsAction = async ({ id, doAnalyze }: { id: bigint; doAnalyze: boolean }): Promise<TResponse<Url>> => {
+  try {
+    await prisma.url.update({
+      where: { id },
+      data: { doAnalyze },
+    });
+
+    revalidatePath('/urls');
+    revalidatePath(`/urls/${id}`);
+
+    return {
+      success: true,
+      data: null,
+      message: 'URL analytics toggled successfully',
+      error: null,
+    };
+  } catch (error) {
+    console.error('Error in toggleUrlAnalyticsAction:', error);
+    return {
+      success: false,
+      error: error as Error,
+      data: null,
+      message: 'Failed to toggle URL analytics',
     };
   }
 };

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const NotFoundPage = () => {
   return (
     <main className='min-h-svh flex justify-center items-center flex-col gap-8'>
