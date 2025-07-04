@@ -18,7 +18,7 @@ const Urlheader = ({ url }: { url: Url }) => {
       </div>
       <div>
         <Link
-          href={url.originalUrl}
+          href={process.env.NEXT_PUBLIC_BASE_URL + '/' + url.shortRoute}
           target='_blank'
           variant='button'
           size='icon'

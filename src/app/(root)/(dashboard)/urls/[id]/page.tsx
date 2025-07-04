@@ -23,8 +23,6 @@ const UrlPage = async ({
     throw new Error(url.error?.message || 'Failed to fetch URL');
   }
 
-  console.log(url.data.url);
-
   return (
     <main className='space-y-4'>
       <Urlheader url={url?.data?.url} />
