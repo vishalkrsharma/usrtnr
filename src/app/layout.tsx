@@ -23,7 +23,7 @@ export default function RootLayout({
       lang='en'
       suppressHydrationWarning
     >
-      <body className={`${firaCode.variable} font-mono antialiased min-h-screen relative`}>
+      <body className={`${firaCode.variable} font-mono antialiased min-h-svh relative`}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
