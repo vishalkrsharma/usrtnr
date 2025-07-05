@@ -5,7 +5,7 @@ const AllURLsPage = async ({ searchParams }: { searchParams: Promise<{ [key: str
   const { page, limit, query } = await searchParams;
 
   return (
-    <main className='space-y-8'>
+    <main className='gap-8 flex-1 flex items-stretch flex-col'>
       <SearchURLs query={query as string} />
       <UrlsTable
         page={page as string}

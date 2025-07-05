@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useDebounce } from 'use-debounce';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import ShortenUrlButton from '@/app/(root)/(dashboard)/dashboard/_components/shorten-url-button';
 
 const UrlsTableTools = ({ query = '' }: { query?: string }) => {
   const router = useRouter();
@@ -32,11 +33,12 @@ const UrlsTableTools = ({ query = '' }: { query?: string }) => {
   }, [debouncedValue]);
 
   return (
-    <div>
+    <div className='flex justify-center items-center gap-4'>
       <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder='Search URLs...'
+        containerClassName='flex-1'
         rightElement={
           <Button
             variant='destructive'
@@ -47,6 +49,7 @@ const UrlsTableTools = ({ query = '' }: { query?: string }) => {
           </Button>
         }
       />
+      <ShortenUrlButton />
     </div>
   );
 };

@@ -73,7 +73,7 @@ const DeleteUrlAlertDialog = () => {
       open={isOpen && type === EAlertDialogType.DELETE_URL}
       onOpenChange={close}
     >
-      <AlertDialogContent>
+      <AlertDialogContent className='w-[600px]'>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you sure you want to delete the url <strong className='bg-muted py-0.5 px-2 rounded-md'>{url.originalUrl}</strong>?
@@ -109,13 +109,16 @@ const DeleteUrlAlertDialog = () => {
               <AlertDialogCancel
                 type='button'
                 onClick={close}
+                className='w-24'
               >
                 Cancel
               </AlertDialogCancel>
+
               <Button
                 type='submit'
                 variant='destructive'
                 isLoading={form.formState.isSubmitting}
+                className='text-destructive-foreground w-24'
               >
                 Delete
               </Button>

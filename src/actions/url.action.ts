@@ -17,6 +17,7 @@ export const urlShortenerAction = async ({ url }: { url: string }): Promise<TRes
         originalUrl: url,
         shortRoute: '',
         userId: userData?.id,
+        doAnalyze: !!userData?.id,
       },
     });
 

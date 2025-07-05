@@ -1,7 +1,6 @@
 import { getUrlById } from '@/actions/url.action';
 import UrlAnalytics from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics';
 import Urlheader from '@/app/(root)/(dashboard)/urls/[id]/_components/url-header';
-import { Separator } from '@/components/ui/separator';
 import { notFound } from 'next/navigation';
 
 const UrlPage = async ({
@@ -24,9 +23,8 @@ const UrlPage = async ({
   }
 
   return (
-    <main className='space-y-4'>
+    <main className='space-y-8 flex-1 flex flex-col items-stretch'>
       <Urlheader url={url?.data?.url} />
-      <Separator />
       <UrlAnalytics
         url={url?.data?.url}
         analytics={url?.data?.analytics}

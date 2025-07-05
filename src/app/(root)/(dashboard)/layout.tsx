@@ -9,7 +9,7 @@ const DashboardLayout = ({
   return (
     <>
       <Navbar />
-      <main className='container mx-auto flex-1 h-[calc(100svh-64px)] pt-24 px-4'>{children}</main>
+      <main className='container mx-auto h-[calc(100svh)] pt-24 pb-8 px-4 flex flex-1 items-stretch'>{children}</main>
     </>
   );
 };

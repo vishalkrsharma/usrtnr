@@ -10,7 +10,7 @@ const Urlheader = ({ url }: { url: Url }) => {
         <Link
           href={url.originalUrl}
           target='_blank'
-          className='text-2xl font-semibold px-0'
+          className='text-2xl font-semibold px-0 text-foreground'
         >
           {url.originalUrl}
         </Link>
