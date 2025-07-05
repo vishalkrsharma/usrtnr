@@ -32,6 +32,13 @@ const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }
         userAgent: headersList.get('user-agent'),
         referer: headersList.get('referer'),
         host: headersList.get('host'),
+        protocol: headersList.get('x-forwarded-proto'),
+        port: headersList.get('x-forwarded-port') ? parseInt(headersList.get('x-forwarded-port')!) : undefined,
+        fetchMode: headersList.get('sec-fetch-mode'),
+        fetchSite: headersList.get('sec-fetch-site'),
+        fetchDest: headersList.get('sec-fetch-dest'),
+        doNotTrack: headersList.get('dnt') === '1',
+        globalPrivacy: headersList.get('sec-gpc') === '1',
         acceptLanguage: headersList.get('accept-language'),
       },
     })

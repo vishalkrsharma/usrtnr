@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import PaginationLimitDropdown from '@/components/helper/pagination-limit-dropdown';
+import { EPaginationLimitKeys } from '@/types/pagination-limit';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -81,10 +83,11 @@ const UrlsDataTable = <TData, TValue>({ columns, data, page, limit, total }: Dat
 
       {/* Pagination Controls */}
       <div className='flex items-center justify-between px-4 py-3 flex-wrap gap-2'>
-        <div>
+        <div className='flex justify-start items-center gap-4'>
           <span className='text-sm text-muted-foreground'>
             Page {page} of {pageCount}
           </span>
+          <PaginationLimitDropdown limitType={EPaginationLimitKeys.URLS_TABLE} />
         </div>
 
         <div className='flex flex-wrap gap-1'>

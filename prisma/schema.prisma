@@ -12,7 +12,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  // directUrl = env("DATABASE_DIRECT_URL")
+  directUrl = env("DATABASE_DIRECT_URL")
 }
 
 model Url {
@@ -32,16 +32,23 @@ model Url {
 }
 
 model Analytics {
-  id              Int       @id @default(autoincrement()) 
+  id              Int       @id @default(autoincrement())
   shortRoute      String
-  ip              String?
-  userAgent       String?
-  referer         String?
-  host            String?
-  cookie          String?
-  acceptLanguage  String?
 
-  url             Url       @relation(fields: [shortRoute], references: [shortRoute])
+  ip              String?             // From x-real-ip or x-forwarded-for
+  userAgent       String?             // Raw user-agent string
+  referer         String?             // Referrer URL
+  host            String?             // Domain accessed
+  protocol        String?             // http or https (x-forwarded-proto)
+  port            Int?                // Port used (x-forwarded-port)
+  fetchMode       String?             // sec-fetch-mode
+  fetchSite       String?             // sec-fetch-site
+  fetchDest       String?             // sec-fetch-dest
+  doNotTrack      Boolean?            // dnt = "1"
+  globalPrivacy   Boolean?            // sec-gpc = "1"
+  acceptLanguage  String?             // User language preferences
+
+  url             Url       @relation(fields: [shortRoute], references: [shortRoute], onDelete: Cascade)
 
   createdAt       DateTime  @default(now())
 }
