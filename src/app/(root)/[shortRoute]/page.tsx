@@ -14,7 +14,7 @@ const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }
   }
 
   if (!record.doAnalyze) {
-    redirect(record.originalUrl);
+    permanentRedirect(record.originalUrl);
   }
 
   const headersList = await headers();
@@ -37,7 +37,7 @@ const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }
     })
     .catch(console.error);
 
-  permanentRedirect(record.originalUrl);
+  redirect(record.originalUrl);
 };
 
 export default RedirectPage;
