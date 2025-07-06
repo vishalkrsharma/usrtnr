@@ -5,12 +5,11 @@ import { BackgroundBeams } from '@/components/ui/background-beams';
 
 const HomePage = () => {
   return (
-    <main className='min-h-screen flex flex-col items-center justify-center gap-4'>
+    <main className='min-h-screen flex flex-col items-center justify-center gap-4 relative z-0'>
       <Utils />
       <Header />
       <UrlShortenerForm />
-
-      <BackgroundBeams />
+      <BackgroundBeams className='-z-10' />
     </main>
   );
 };
