@@ -1,6 +1,7 @@
 import NavLinks from '@/app/(root)/(dashboard)/_components/nav-links';
 import ProfileDropdown from '@/app/(root)/(dashboard)/_components/profile-dropdown';
 import { Link } from '@/components/ui/link';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 import { getSession } from '@/lib/session';
 
 const Navbar = async () => {
@@ -20,6 +21,7 @@ const Navbar = async () => {
           </div>
           <NavLinks />
           <div className='flex justify-end items-center gap-4 flex-1'>
+            <ModeToggle />
             <ProfileDropdown userData={userData} />
           </div>
         </nav>

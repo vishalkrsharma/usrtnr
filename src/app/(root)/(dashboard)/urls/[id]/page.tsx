@@ -1,6 +1,7 @@
 import { getUrlById } from '@/actions/url.action';
 import UrlAnalytics from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics';
 import Urlheader from '@/app/(root)/(dashboard)/urls/[id]/_components/url-header';
+import MapChart from '@/components/helper/map-chart';
 import { notFound } from 'next/navigation';
 
 const UrlPage = async ({
@@ -29,6 +30,7 @@ const UrlPage = async ({
         url={url?.data?.url}
         analytics={url?.data?.analytics}
       />
+      <MapChart />
     </main>
   );
 };

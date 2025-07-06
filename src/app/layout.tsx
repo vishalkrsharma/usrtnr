@@ -13,17 +13,17 @@ export const metadata: Metadata = {
     'A modern and efficient URL shortener service that helps you create short, memorable links from long URLs. Transform lengthy web addresses into concise, shareable links with ease.',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html
       lang='en'
       suppressHydrationWarning
     >
-      <body className={`${firaCode.variable} font-mono antialiased min-h-svh relative`}>
+      <body className={`${firaCode.variable} font-mono antialiased min-h-screen relative`}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
@@ -37,9 +37,10 @@ export default function RootLayout({
           />
           <DialogProvider />
           <AlertDialogProvider />
-          <ModeToggle className='absolute right-4 bottom-4' />
         </ThemeProvider>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
