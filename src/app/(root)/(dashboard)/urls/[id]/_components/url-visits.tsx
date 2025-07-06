@@ -19,8 +19,6 @@ const UrlVisits = ({ analytics }: { analytics: Analytics[] }) => {
   const trendByWeek = groupByWeek({ analytics });
   const trend = getTrendVariant({ trendByWeek: trendByWeek });
 
-  console.log(trendByWeek);
-
   return (
     <UrlKeyValue
       title='Visits'

@@ -3,7 +3,6 @@ import '@/app/globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { firaCode } from '@/lib/fonts';
 import DialogProvider from '@/providers/dialog-provider';
-import { ModeToggle } from '@/components/ui/mode-toggle';
 import { Toaster } from '@/components/ui/sonner';
 import AlertDialogProvider from '@/providers/alert-dialog-provider';
 
