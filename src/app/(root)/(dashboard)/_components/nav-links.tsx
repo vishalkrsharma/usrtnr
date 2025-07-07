@@ -9,7 +9,7 @@ const NavLinks = () => {
   const pathname = usePathname();
 
   return (
-    <div className='flex justify-center items-center gap-2 flex-1'>
+    <div className='flex justify-center items-center gap-2 flex-1 max-md:hidden'>
       {NAV_LINKS.map((link) => (
         <Link
           href={link.href}

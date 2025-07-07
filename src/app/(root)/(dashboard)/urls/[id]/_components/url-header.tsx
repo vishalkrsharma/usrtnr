@@ -5,16 +5,16 @@ import { ExternalLink } from 'lucide-react';
 
 const Urlheader = ({ url }: { url: Url }) => {
   return (
-    <header className='flex justify-between items-center gap-4'>
+    <header className='flex justify-between items-center  w-full'>
       <div className='flex justify-start items-center gap-4'>
         <Link
           href={url.originalUrl}
           target='_blank'
-          className='text-2xl font-semibold px-0 text-foreground'
+          className='text-2xl max-md:text-lg font-semibold px-0 text-foreground'
         >
           {url.originalUrl}
         </Link>
-        <Badge>{url.shortRoute}</Badge>
+        <Badge className='max-md:text-xs'>{url.shortRoute}</Badge>
       </div>
       <div>
         <Link

@@ -8,6 +8,7 @@ export type TResponse<T> = {
 export type TNavLink = {
   title: string;
   href: string;
+  onlyForSheet?: boolean;
 };
 
 export type TIPAddrRes = {

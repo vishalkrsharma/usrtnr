@@ -22,7 +22,14 @@ export const extractUserAgentInfo = ({ analytics }: { analytics: Analytics[] }) 
 };
 
 export const groupByBrowser = ({ data }: { data: UAParser.IResult[] }) => {
-  const browserCounts: Record<string, number> = {};
+  const allowedBrowsers = ['chrome', 'safari', 'firefox', 'edge'];
+  const browserCounts: Record<string, number> = {
+    chrome: 0,
+    safari: 0,
+    firefox: 0,
+    edge: 0,
+    other: 0,
+  };
 
   data.forEach((item) => {
     let browserName = item.browser.name?.toLowerCase() || 'other';
@@ -31,14 +38,20 @@ export const groupByBrowser = ({ data }: { data: UAParser.IResult[] }) => {
       browserName = browserName.replace('mobile ', '');
     }
 
-    browserCounts[browserName] = (browserCounts[browserName] || 0) + 1;
+    if (allowedBrowsers.includes(browserName)) {
+      browserCounts[browserName] += 1;
+    } else {
+      browserCounts.other += 1;
+    }
   });
 
-  const chartData = Object.entries(browserCounts).map(([browser, visitors]) => ({
-    browser,
-    visitors,
-    fill: `var(--color-${browser})`,
-  }));
+  const chartData = Object.entries(browserCounts)
+    .filter(([, visitors]) => visitors > 0)
+    .map(([browser, visitors]) => ({
+      browser,
+      visitors,
+      fill: `var(--color-${browser})`,
+    }));
 
   return chartData;
 };

@@ -2,6 +2,7 @@ import Header from '@/app/(root)/(home)/_components/header';
 import Utils from '@/app/(root)/(home)/_components/utils';
 import UrlShortenerForm from '@/components/forms/url-shortener-form';
 import { BackgroundBeams } from '@/components/ui/background-beams';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 const HomePage = () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = () => {
       <Header />
       <UrlShortenerForm />
       <BackgroundBeams className='-z-10' />
+      <ModeToggle className='absolute bottom-4 right-4' />
     </main>
   );
 };

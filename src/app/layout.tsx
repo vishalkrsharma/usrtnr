@@ -8,8 +8,7 @@ import AlertDialogProvider from '@/providers/alert-dialog-provider';
 
 export const metadata: Metadata = {
   title: 'usrtnr',
-  description:
-    'A modern and efficient URL shortener service that helps you create short, memorable links from long URLs. Transform lengthy web addresses into concise, shareable links with ease.',
+  description: 'A modern URL shortener that transforms long web addresses into short, memorable, and shareable links with ease.',
 };
 
 const RootLayout = ({

@@ -10,8 +10,6 @@ import { Analytics, Url } from '@/generated/prisma';
 const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) => {
   const ipAddr = analytics.map((item) => item.ip).filter((ip): ip is string => ip !== null);
 
-  console.log(analytics);
-
   return (
     <main className='flex flex-col flex-1 gap-4'>
       <div className='flex justify-between items-center'>

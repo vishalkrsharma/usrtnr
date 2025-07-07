@@ -2,7 +2,7 @@
 
 import { Pie, PieChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Analytics } from '@/generated/prisma';
 import { extractUserAgentInfo, groupByBrowser } from '@/lib/analytics';
 
@@ -34,7 +34,7 @@ const UrlAnalyticsBrowserChart = ({ analytics }: { analytics: Analytics[] }) => 
   const chartData = groupByBrowser({ data: userAgentData });
 
   return (
-    <Card className='flex flex-col flex-1'>
+    <Card className='flex flex-col flex-1 min-w-[400px]'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Browser Analytics</CardTitle>
         <CardDescription>Visitor distribution by browser</CardDescription>
@@ -42,7 +42,7 @@ const UrlAnalyticsBrowserChart = ({ analytics }: { analytics: Analytics[] }) => 
       <CardContent className='flex-1 pb-0'>
         <ChartContainer
           config={chartConfig}
-          className='mx-auto aspect-square max-h-[250px]'
+          className='mx-auto aspect-square w-full max-h-[250px]'
         >
           <PieChart>
             <ChartTooltip
@@ -53,7 +53,11 @@ const UrlAnalyticsBrowserChart = ({ analytics }: { analytics: Analytics[] }) => 
               data={chartData}
               dataKey='visitors'
               nameKey='browser'
-              innerRadius={60}
+              innerRadius={40}
+            />
+            <ChartLegend
+              content={<ChartLegendContent nameKey='browser' />}
+              className='-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center'
             />
           </PieChart>
         </ChartContainer>

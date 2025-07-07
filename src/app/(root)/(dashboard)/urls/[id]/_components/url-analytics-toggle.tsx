@@ -30,8 +30,8 @@ const UrlAnalyticsToggle = ({ id, doAnalyzeValue }: { id: bigint; doAnalyzeValue
   };
 
   return (
-    <div className='border rounded-md px-3 py-2 flex justify-center items-center gap-4'>
-      <span className='text-sm text-muted-foreground'>Toggle Analytics for this url</span>
+    <div className='md:border rounded-md px-3 py-2 flex justify-center items-center gap-4'>
+      <span className='text-sm text-muted-foreground max-md:hidden'>Toggle Analytics for this url</span>
       <Switch
         checked={checked}
         onCheckedChange={onToggle}

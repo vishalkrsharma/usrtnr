@@ -64,7 +64,7 @@ export default function UrlShortenerForm({ className }: { className?: string }) 
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn('w-2/3 max-w-[800px] flex-1', className)}
+        className={cn('md:w-2/3 max-md:w-full max-md:px-4 max-w-[800px] flex-1', className)}
       >
         <FormField
           control={form.control}
@@ -74,6 +74,7 @@ export default function UrlShortenerForm({ className }: { className?: string }) 
               <FormControl>
                 <Input
                   placeholder='https://website.com'
+                  containerClassName='bg-background'
                   className='py-7 px-6 pr-12 w-full rounded-3xl'
                   rightElementClassName='right-4'
                   rightElement={
