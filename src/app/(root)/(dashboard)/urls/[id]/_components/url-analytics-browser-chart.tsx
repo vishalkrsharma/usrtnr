@@ -6,8 +6,6 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Analytics } from '@/generated/prisma';
 import { extractUserAgentInfo, groupByBrowser } from '@/lib/analytics';
 
-export const description = 'A donut chart';
-
 const chartConfig = {
   chrome: {
     label: 'Chrome',

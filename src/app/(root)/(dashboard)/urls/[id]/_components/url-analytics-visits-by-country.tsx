@@ -18,7 +18,7 @@ const UrlAnalyticsVisitsByCountry = async ({ ipAddr }: { ipAddr: string[] }) => 
         <CardTitle>Top Visits by Country</CardTitle>
         <CardDescription>Shows the top countries visiting your link, with flags and visit counts.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className='grid gap-4 grid-cols-2'>
         {countryList.map((item) => (
           <div
             className='flex justify-between items-center gap-4'
@@ -28,9 +28,9 @@ const UrlAnalyticsVisitsByCountry = async ({ ipAddr }: { ipAddr: string[] }) => 
               <Image
                 src={item.flag}
                 alt={item.alpha3}
-                height={50}
-                width={50}
-                className='rounded-full'
+                height={40}
+                width={40}
+                className='rounded-full aspect-square object-cover'
               />
               <span>
                 {item.countryName} ({item.alpha3})

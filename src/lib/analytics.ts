@@ -59,3 +59,19 @@ export const convertUserAgentDataToChartFormat = (userAgentData: UAParser.IResul
 
   return chartData;
 };
+
+export const groupFetchFieldValues = ({ analytics, fieldName }: { analytics: Analytics[]; fieldName: 'fetchMode' | 'fetchSite' | 'fetchDest' }) => {
+  const countMap: Record<string, number> = {};
+
+  analytics.forEach((item) => {
+    const value = item[fieldName];
+    if (value !== null && value !== undefined) {
+      countMap[value] = (countMap[value] || 0) + 1;
+    }
+  });
+
+  return Object.entries(countMap).map(([key, count]) => ({
+    field: key,
+    value: count,
+  }));
+};

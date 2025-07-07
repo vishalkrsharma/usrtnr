@@ -3,14 +3,17 @@ import UrlAnalyticsDisabledPlaceholder from '@/app/(root)/(dashboard)/urls/[id]/
 import UrlAnalyticsHeatMap from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-heat-map';
 import UrlAnalyticsToggle from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-toggle';
 import UrlAnalyticsVisitsByCountry from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-visits-by-country';
+import UrlAnalytisAccessChart from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytis-access-types';
 import UrlVisits from '@/app/(root)/(dashboard)/urls/[id]/_components/url-visits';
 import { Analytics, Url } from '@/generated/prisma';
 
 const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) => {
   const ipAddr = analytics.map((item) => item.ip).filter((ip): ip is string => ip !== null);
 
+  console.log(analytics);
+
   return (
-    <main className='flex flex-col flex-1 gap-8'>
+    <main className='flex flex-col flex-1 gap-4'>
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-muted-foreground'>Analytics</h2>
         {url.doAnalyze ? (
@@ -33,6 +36,7 @@ const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) 
         <UrlAnalyticsBrowserChart analytics={analytics} />
         <UrlAnalyticsVisitsByCountry ipAddr={ipAddr} />
       </div>
+      <UrlAnalytisAccessChart analytics={analytics} />
       <UrlAnalyticsHeatMap ipAddr={ipAddr} />
     </main>
   );

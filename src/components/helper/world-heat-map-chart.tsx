@@ -21,7 +21,7 @@ const WorldHeatMapChart = ({ data }: { data: Record<string, number> }) => {
   };
 
   const colorRange = getColorRange();
-  const colorScale = scaleLinear().domain([minValue, maxValue]).range(colorRange);
+  const colorScale = scaleLinear().domain([minValue, maxValue]).range([colorRange[1], colorRange[0]]);
 
   return (
     <ComposableMap>
