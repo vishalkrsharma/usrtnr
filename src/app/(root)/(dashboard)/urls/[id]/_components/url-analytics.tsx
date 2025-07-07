@@ -1,11 +1,13 @@
 import UrlAnalyticsBrowserChart from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-browser-chart';
 import UrlAnalyticsDisabledPlaceholder from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-disabled-placeholder';
+import UrlAnalyticsHeatMap from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-heat-map';
 import UrlAnalyticsToggle from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-toggle';
+import UrlAnalyticsVisitsByCountry from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-visits-by-country';
 import UrlVisits from '@/app/(root)/(dashboard)/urls/[id]/_components/url-visits';
 import { Analytics, Url } from '@/generated/prisma';
 
 const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) => {
-  console.log(analytics);
+  const ipAddr = analytics.map((item) => item.ip).filter((ip): ip is string => ip !== null);
 
   return (
     <main className='flex flex-col flex-1 gap-8'>
@@ -27,9 +29,11 @@ const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) 
       <div className='flex justify-start items-stretch gap-4 flex-wrap'>
         <UrlVisits analytics={analytics} />
       </div>
-      <div className='fleax justify-start items-stretch gap-4 flex-wrap'>
+      <div className='flex justify-start items-stretch gap-4 flex-wrap'>
         <UrlAnalyticsBrowserChart analytics={analytics} />
+        <UrlAnalyticsVisitsByCountry ipAddr={ipAddr} />
       </div>
+      <UrlAnalyticsHeatMap ipAddr={ipAddr} />
     </main>
   );
 };

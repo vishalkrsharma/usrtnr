@@ -1,14 +1,12 @@
 import { getIPCountryBatchAction } from '@/actions/ip.action';
 import WorldHeatMapChart from '@/components/helper/world-heat-map-chart';
-import { Analytics } from '@/generated/prisma';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { getCountryCount } from '@/lib/countries';
 
-const UrlAnalyticsHeatMap = async ({ analytics }: { analytics: Analytics[] }) => {
-  const ipAddr = await getIPCountryBatchAction({
-    ipAddr: analytics.map((item) => item.ip).filter((ip): ip is string => ip !== null),
-  });
+const UrlAnalyticsHeatMap = async ({ ipAddr }: { ipAddr: string[] }) => {
+  const ipAddrData = await getIPCountryBatchAction({ ipAddr });
 
-  if (!ipAddr.success) {
+  if (!ipAddrData?.success) {
     return null;
   }
 
@@ -21,7 +19,7 @@ const UrlAnalyticsHeatMap = async ({ analytics }: { analytics: Analytics[] }) =>
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <WorldHeatMapChart data={ipAddr?.data ?? {}} />
+        <WorldHeatMapChart data={getCountryCount({ data: ipAddrData?.data ?? [] })} />
       </CardContent>
       <CardFooter className='text-muted-foreground'>Hover over a country to see visit details.</CardFooter>
     </Card>

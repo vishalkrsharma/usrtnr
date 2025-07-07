@@ -1,32 +1,18 @@
-import { TResponse } from '@/types/global';
-import countries from '@/constants/countries.json';
+import { TIPAddrRes, TResponse } from '@/types/global';
+import { cache } from 'react';
 
-export const getIPCountryBatchAction = async ({ ipAddr }: { ipAddr: string[] }): Promise<TResponse<Record<string, number>>> => {
+export const getIPCountryBatchAction = cache(async ({ ipAddr }: { ipAddr: string[] }): Promise<TResponse<TIPAddrRes[]>> => {
   try {
     const res = await fetch('http://ip-api.com/batch?fields=8194', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(ipAddr),
     });
-    const data = await res.json();
-
-    // Map 2-letter country codes to 3-letter codes using countries.json
-    const alpha2to3: Record<string, { alpha3: string; name: string }> = {};
-    countries.forEach((c) => {
-      alpha2to3[c.alpha2] = { alpha3: c.alpha3, name: c.name };
-    });
-
-    // Count occurrences and build Record<string, number> directly
-    const counts: Record<string, number> = {};
-    data.forEach((item: Record<string, string>) => {
-      const countryInfo = alpha2to3[item.countryCode];
-      if (!countryInfo) return;
-      counts[countryInfo.alpha3] = (counts[countryInfo.alpha3] || 0) + 1;
-    });
+    const data: TIPAddrRes[] = await res.json();
 
     return {
       success: true,
-      data: counts,
+      data: data.filter((item) => item.countryCode !== null),
       message: 'Countries grouped by count',
       error: null,
     };
@@ -38,4 +24,4 @@ export const getIPCountryBatchAction = async ({ ipAddr }: { ipAddr: string[] }):
       message: 'Failed to fetch IP country data',
     };
   }
-};
+});

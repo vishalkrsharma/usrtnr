@@ -36,7 +36,7 @@ const UrlAnalyticsBrowserChart = ({ analytics }: { analytics: Analytics[] }) => 
   const chartData = groupByBrowser({ data: userAgentData });
 
   return (
-    <Card className='flex flex-col'>
+    <Card className='flex flex-col flex-1'>
       <CardHeader className='items-center pb-0'>
         <CardTitle>Browser Analytics</CardTitle>
         <CardDescription>Visitor distribution by browser</CardDescription>
