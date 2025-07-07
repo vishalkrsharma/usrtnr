@@ -3,6 +3,7 @@
 import { Analytics, Prisma, Url } from '@/generated/prisma';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
+import { generateSnowflakeId } from '@/lib/snowflake';
 import { toBase62 } from '@/lib/utils';
 import { TResponse } from '@/types/global';
 import { revalidatePath } from 'next/cache';
@@ -13,7 +14,7 @@ export const urlShortenerAction = async ({ url }: { url: string }): Promise<TRes
 
     const createdUrl = await prisma.url.create({
       data: {
-        id: BigInt(Date.now()),
+        id: generateSnowflakeId(),
         originalUrl: url,
         shortRoute: '',
         userId: userData?.id,

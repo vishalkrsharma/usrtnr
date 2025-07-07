@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export default function UrlShortenerForm({ className }: { className?: string }) {
+export default function UrlShortenerForm({ className, showCreateAccountButton = false }: { className?: string; showCreateAccountButton?: boolean }) {
   const { onOpen } = useDialog();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
@@ -46,7 +46,7 @@ export default function UrlShortenerForm({ className }: { className?: string }) 
     if (res.success) {
       onOpen({
         type: EDialogType.SHORT_URL,
-        dialogData: res.data,
+        dialogData: { data: res.data, showCreateAccountButton },
       });
     } else {
       toast.error(res.error?.message || 'An error occurred while creating the short URL', {
@@ -64,7 +64,7 @@ export default function UrlShortenerForm({ className }: { className?: string }) 
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn('md:w-2/3 max-md:w-full max-md:px-4 max-w-[800px] flex-1', className)}
+        className={cn('w-2/3 max-md:w-full max-w-[800px] flex-1', className)}
       >
         <FormField
           control={form.control}
@@ -74,7 +74,6 @@ export default function UrlShortenerForm({ className }: { className?: string }) 
               <FormControl>
                 <Input
                   placeholder='https://website.com'
-                  containerClassName='bg-background'
                   className='py-7 px-6 pr-12 w-full rounded-3xl'
                   rightElementClassName='right-4'
                   rightElement={

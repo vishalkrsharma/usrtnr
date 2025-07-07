@@ -33,6 +33,7 @@
     "country-flag-icons": "^1.5.19",
     "d3-scale": "^4.0.2",
     "date-fns": "^4.1.0",
+    "flake-idgen": "^1.4.0",
     "lucide-react": "^0.511.0",
     "motion": "^12.23.0",
     "next": "15.3.3",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/flake-idgen": "^0.1.34",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

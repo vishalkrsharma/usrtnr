@@ -77,6 +77,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      flake-idgen:
+        specifier: ^1.4.0
+        version: 1.4.0
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.1.0)
@@ -132,6 +135,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.8
+      '@types/flake-idgen':
+        specifier: ^0.1.34
+        version: 0.1.34
       '@types/node':
         specifier: ^20
         version: 20.17.57
@@ -1280,6 +1286,9 @@ packages:
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
+  '@types/flake-idgen@0.1.34':
+    resolution: {integrity: sha512-fh+9hSQ4SgqtIBgQg42cV5sRwxIA+pVQHsveYW25oPlB0SYLJsZNwKrgn5xvxSKUOV0s8OQ7gXto1nFmxejqqQ==}
+
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
 
@@ -1995,6 +2004,9 @@ packages:
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
+
+  flake-idgen@1.4.0:
+    resolution: {integrity: sha512-l+dtBcIAwAPqmtDelZAAw0NzKOBosiu/3hAFH69W3n1rH8wkKN1hUp6SaR1tmH/NmzaCUQs1BFKULKVhqGWdMw==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -4055,6 +4067,10 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
+  '@types/flake-idgen@0.1.34':
+    dependencies:
+      '@types/node': 20.17.57
+
   '@types/geojson@7946.0.16': {}
 
   '@types/json-schema@7.0.15': {}
@@ -4966,6 +4982,8 @@ snapshots:
     dependencies:
       locate-path: 6.0.0
       path-exists: 4.0.0
+
+  flake-idgen@1.4.0: {}
 
   flat-cache@4.0.1:
     dependencies:

@@ -7,14 +7,14 @@ import { Url } from '@/generated/prisma';
 import { useDialog } from '@/hooks/use-dialog';
 import { EDialogType } from '@/types/dialog';
 import { Copy, ExternalLink, UserPlus } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 const ShortUrlDialog = () => {
   const { type, isOpen, onClose, dialogData } = useDialog();
-  const pathname = usePathname();
 
-  const data = dialogData as Url;
+  if (!dialogData) return null;
+  const { data, showCreateAccountButton } = dialogData as { data: Url; showCreateAccountButton: boolean };
+  if (!data) return null;
 
   const shortUrl = process.env.NEXT_PUBLIC_BASE_URL + '/' + data?.shortRoute;
 
@@ -22,8 +22,6 @@ const ShortUrlDialog = () => {
     navigator.clipboard.writeText(shortUrl);
     toast.success('Short URL copied to clipboard!');
   };
-
-  if (!data) return null;
 
   return (
     <Dialog
@@ -63,7 +61,7 @@ const ShortUrlDialog = () => {
               </Link>
             </div>
           </div>
-          {!pathname.includes('dashboard') ? (
+          {showCreateAccountButton ? (
             <div className='flex justify-between items-center'>
               <p className='text-sm text-muted-foreground'>Sign up to track clicks and get detailed analytics for your link.</p>
               <Link
