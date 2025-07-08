@@ -21,7 +21,7 @@ export const checkSession = async () => {
 
   const { data } = await supabase.auth.getUser();
 
-  return !!data.user;
+  return data.user;
 };
 
 export const clearSession = async () => {
