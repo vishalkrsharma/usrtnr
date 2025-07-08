@@ -75,6 +75,7 @@ export default function UrlShortenerForm({ className, showCreateAccountButton = 
                 <Input
                   placeholder='https://website.com'
                   className='py-7 px-6 pr-12 w-full rounded-3xl'
+                  containerClassName='bg-background'
                   rightElementClassName='right-4'
                   rightElement={
                     form.formState.errors.url ? (
