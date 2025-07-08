@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const UrlAnalyticsDisabledPlaceholder = ({ id, doAnalyze }: { id: bigint; doAnalyze: boolean }) => {
+const UrlAnalyticsDisabledPlaceholder = ({ id, doAnalyze }: { id: string; doAnalyze: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const turnOnAnalysis = async () => {

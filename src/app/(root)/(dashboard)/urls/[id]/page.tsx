@@ -13,7 +13,7 @@ const UrlPage = async ({
 }) => {
   const { id } = await params;
 
-  const url = await getUrlById({ id: BigInt(id) });
+  const url = await getUrlById({ id });
 
   if (!url.success || !url.data || !url.data.url) {
     notFound();

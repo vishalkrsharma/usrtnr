@@ -5,7 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { useOptimistic, startTransition } from 'react';
 
-const UrlAnalyticsToggle = ({ id, doAnalyzeValue }: { id: bigint; doAnalyzeValue: boolean }) => {
+const UrlAnalyticsToggle = ({ id, doAnalyzeValue }: { id: string; doAnalyzeValue: boolean }) => {
   const [checked, setChecked] = useOptimistic(doAnalyzeValue);
   const onToggle = async () => {
     startTransition(() => {

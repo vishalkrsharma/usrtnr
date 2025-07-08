@@ -16,7 +16,7 @@ datasource db {
 }
 
 model Url {
-  id            BigInt    @id
+  id            String    @id
   shortRoute    String    @unique
   originalUrl   String
   userId        String?

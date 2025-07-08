@@ -4,7 +4,7 @@ import { Analytics, Prisma, Url } from '@/generated/prisma';
 import prisma from '@/lib/prisma';
 import { checkSession, getSession } from '@/lib/session';
 import { generateSnowflakeId } from '@/lib/snowflake';
-import { toBase62 } from '@/lib/utils';
+import { toBase62 } from '@/lib/base62';
 import { TResponse } from '@/types/global';
 import { revalidatePath } from 'next/cache';
 
@@ -48,7 +48,7 @@ export const urlShortenerAction = async ({ url }: { url: string }): Promise<TRes
   }
 };
 
-export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: bigint }): Promise<TResponse<Url>> => {
+export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: string }): Promise<TResponse<Url>> => {
   try {
     const userData = await getSession();
 
@@ -142,7 +142,7 @@ export const getAllUrlsByUserId = async ({
   }
 };
 
-export const getUrlById = async ({ id }: { id: bigint }): Promise<TResponse<{ url: Url; analytics: Analytics[] }>> => {
+export const getUrlById = async ({ id }: { id: string }): Promise<TResponse<{ url: Url; analytics: Analytics[] }>> => {
   try {
     const userData = await getSession();
 
@@ -182,7 +182,7 @@ export const getUrlById = async ({ id }: { id: bigint }): Promise<TResponse<{ ur
   }
 };
 
-export const deleteUrlByIdAction = async ({ id }: { id: bigint }): Promise<TResponse<Url>> => {
+export const deleteUrlByIdAction = async ({ id }: { id: string }): Promise<TResponse<Url>> => {
   try {
     const url = await prisma.url.delete({
       where: { id: id },
@@ -207,7 +207,7 @@ export const deleteUrlByIdAction = async ({ id }: { id: bigint }): Promise<TResp
   }
 };
 
-export const toggleUrlAnalyticsAction = async ({ id, doAnalyze }: { id: bigint; doAnalyze: boolean }): Promise<TResponse<Url>> => {
+export const toggleUrlAnalyticsAction = async ({ id, doAnalyze }: { id: string; doAnalyze: boolean }): Promise<TResponse<Url>> => {
   try {
     await prisma.url.update({
       where: { id },
