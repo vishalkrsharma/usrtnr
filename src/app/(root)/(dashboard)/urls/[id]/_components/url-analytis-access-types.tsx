@@ -8,7 +8,7 @@ const UrlAnalytisAccessChart = ({ analytics }: { analytics: Analytics[] }) => {
   const fetchDestChartData = groupFetchFieldValues({ analytics, fieldName: 'fetchDest' });
 
   return (
-    <div className='flex max-md:flex-col justify-stretch items-stretch gap-4'>
+    <div className='flex max-md:flex-col justify-stretch items-stretch gap-4 min-h-[350px]'>
       <UrlAnalyticsAccessPieChart
         title='Fetch Mode Chart'
         description='Distribution of requests by fetch mode header.'

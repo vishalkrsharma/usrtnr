@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Analytics } from '@/generated/prisma';
 import { extractUserAgentInfo, groupByBrowser } from '@/lib/analytics';
+import PlaceholderText from '@/components/helper/placeholder-text';
 
 const chartConfig = {
   chrome: {
@@ -39,28 +40,32 @@ const UrlAnalyticsBrowserChart = ({ analytics }: { analytics: Analytics[] }) => 
         <CardTitle>Browser Analytics</CardTitle>
         <CardDescription>Visitor distribution by browser</CardDescription>
       </CardHeader>
-      <CardContent className='flex-1 pb-0'>
-        <ChartContainer
-          config={chartConfig}
-          className='mx-auto aspect-square w-full max-h-[250px]'
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey='visitors'
-              nameKey='browser'
-              innerRadius={40}
-            />
-            <ChartLegend
-              content={<ChartLegendContent nameKey='browser' />}
-              className='-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center'
-            />
-          </PieChart>
-        </ChartContainer>
+      <CardContent className='flex-1 pb-0 flex justify-center items-center'>
+        {chartData.length > 0 ? (
+          <ChartContainer
+            config={chartConfig}
+            className='mx-auto aspect-square w-full max-h-[250px]'
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey='visitors'
+                nameKey='browser'
+                innerRadius={40}
+              />
+              <ChartLegend
+                content={<ChartLegendContent nameKey='browser' />}
+                className='-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center'
+              />
+            </PieChart>
+          </ChartContainer>
+        ) : (
+          <PlaceholderText />
+        )}
       </CardContent>
     </Card>
   );

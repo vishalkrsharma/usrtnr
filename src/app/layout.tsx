@@ -21,7 +21,7 @@ const RootLayout = ({
       lang='en'
       suppressHydrationWarning
     >
-      <body className={`${firaCode.variable} font-mono antialiased min-h-screen relative`}>
+      <body className={`${firaCode.variable} font-mono antialiased min-h-screen relative flex flex-col items-stretch`}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

@@ -4,7 +4,6 @@ import UrlAnalyticsHeatMap from '@/app/(root)/(dashboard)/urls/[id]/_components/
 import UrlAnalyticsToggle from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-toggle';
 import UrlAnalyticsVisitsByCountry from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytics-visits-by-country';
 import UrlAnalytisAccessChart from '@/app/(root)/(dashboard)/urls/[id]/_components/url-analytis-access-types';
-import UrlVisits from '@/app/(root)/(dashboard)/urls/[id]/_components/url-visits';
 import { Analytics, Url } from '@/generated/prisma';
 
 const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) => {
@@ -27,10 +26,10 @@ const UrlAnalytics = ({ url, analytics }: { url: Url; analytics: Analytics[] }) 
           doAnalyze={url.doAnalyze}
         />
       ) : null}
-      <div className='flex justify-start items-stretch gap-4 flex-wrap'>
+      {/* <div className='flex justify-start items-stretch gap-4 flex-wrap'>
         <UrlVisits analytics={analytics} />
-      </div>
-      <div className='flex justify-start items-stretch gap-4 flex-wrap'>
+      </div> */}
+      <div className='flex justify-start items-stretch gap-4 flex-wrap min-h-[400px]'>
         <UrlAnalyticsBrowserChart analytics={analytics} />
         <UrlAnalyticsVisitsByCountry ipAddr={ipAddr} />
       </div>

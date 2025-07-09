@@ -7,7 +7,7 @@ const DashboardPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
 
   if (!shortUrlId) {
     return (
-      <main className='w-full'>
+      <main className='flex-1 flex flex-col items-stretch'>
         <DashboardContent />
       </main>
     );
@@ -16,7 +16,7 @@ const DashboardPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
   const data = await addUrlToAccountAction({ shortUrlId });
 
   return (
-    <main className='w-full'>
+    <main className='flex-1 flex flex-col items-stretch'>
       <ToastRenderer
         message={data.message}
         variant={data?.success ? 'success' : 'error'}
