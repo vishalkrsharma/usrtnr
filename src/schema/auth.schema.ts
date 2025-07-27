@@ -47,3 +47,29 @@ export const signupFormSchema = baseAuthSchema
   });
 
 export const signinFormSchema = baseAuthSchema;
+
+export const forgotPasswordFormSchema = baseAuthSchema.pick({
+  email: true,
+});
+
+export const resetPasswordFormSchema = baseAuthSchema
+  .pick({
+    password: true,
+  })
+  .extend({
+    repeatPassword: z
+      .string({
+        required_error: 'Repeat Password is required',
+      })
+      .trim()
+      .min(6, {
+        message: 'Password must be at least 6 characters',
+      })
+      .max(255, {
+        message: 'Repeat Password must be less than 255 characters',
+      }),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Passwords don't match",
+    path: ['repeatPassword'],
+  });

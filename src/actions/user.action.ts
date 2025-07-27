@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { SigninFormSchemaType, SignupFormSchemaType } from '@/types/form';
+import { ForgotPasswordFormSchemaType, ResetPasswordFormSchemaType, SigninFormSchemaType, SignupFormSchemaType } from '@/types/form';
 import { TResponse } from '@/types/global';
 import { User } from 'better-auth';
 import { headers } from 'next/headers';
@@ -86,6 +86,58 @@ export const signoutAction = async (): Promise<TResponse<null>> => {
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Logout failed',
+      error: error instanceof Error ? error : new Error('An An unknown error occurred'),
+    };
+  }
+};
+
+export const forgotPasswordAction = async (values: ForgotPasswordFormSchemaType): Promise<TResponse<null>> => {
+  try {
+    const data = await auth.api.forgetPassword({
+      body: {
+        ...values,
+        redirectTo: 'http://localhost:3000/auth/reset-password',
+      },
+      headers: await headers(),
+    });
+
+    console.log(data);
+
+    return {
+      success: true,
+      message: 'Password reset email sent',
+    };
+  } catch (error) {
+    console.log('Error in forgotPasswordAction:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'An An unknown error occurred',
+      error: error instanceof Error ? error : new Error('An An unknown error occurred'),
+    };
+  }
+};
+
+export const resetPasswordAction = async ({ values, token }: { values: ResetPasswordFormSchemaType; token: string }): Promise<TResponse<null>> => {
+  try {
+    await auth.api.resetPassword({
+      body: {
+        newPassword: values.password,
+      },
+      query: {
+        token,
+      },
+      headers: await headers(),
+    });
+
+    return {
+      success: true,
+      message: 'Password reset successful',
+    };
+  } catch (error) {
+    console.log('Error in resetPasswordAction:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'An An unknown error occurred',
       error: error instanceof Error ? error : new Error('An An unknown error occurred'),
     };
   }

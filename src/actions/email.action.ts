@@ -5,7 +5,7 @@ import { CreateEmailResponseSuccess, Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendVerificationEmailAction = async ({
+export const sendEmailAction = async ({
   to,
   subject,
   text,
@@ -21,7 +21,7 @@ export const sendVerificationEmailAction = async ({
 > => {
   try {
     const response = await resend.emails.send({
-      from: 'Your App <onboarding@resend.dev>',
+      from: 'usrtnr <onboarding@resend.dev>',
       to: [to],
       subject: subject,
       html: `<p>${text}</p>`,
@@ -38,7 +38,7 @@ export const sendVerificationEmailAction = async ({
       message: 'Email sent successfully',
     };
   } catch (error) {
-    console.error('Error in sendVerificationEmailAction:', error);
+    console.error('Error in sendEmailAction:', error);
     return {
       success: false,
       error: error instanceof Error ? error : new Error('An unknown error occurred'),

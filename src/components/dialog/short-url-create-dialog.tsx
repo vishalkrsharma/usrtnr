@@ -3,7 +3,7 @@
 import { useDialog } from '@/hooks/use-dialog';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { EDialogType } from '@/types/dialog';
-import UrlShortenerForm from '@/components/forms/url-shortener-form';
+import UrlShortenerForm from '@/components/form/url-shortener-form';
 
 const ShortUrlCreateDialog = () => {
   const { type, isOpen, onClose } = useDialog();

@@ -8,35 +8,31 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeClosed } from 'lucide-react';
-import { SignupFormSchemaType } from '@/types/form';
-import { signupFormSchema } from '@/schema/auth.schema';
-import { signupAction } from '@/actions/user.action';
+import { ResetPasswordFormSchemaType } from '@/types/form';
+import { resetPasswordFormSchema } from '@/schema/auth.schema';
+import { resetPasswordAction } from '@/actions/user.action';
+import { toast } from 'sonner';
 
-const SignupForm = () => {
-  const [error, setError] = useState<string | null>(null);
+const ResetPasswordForm = ({ token }: { token: string }) => {
   const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
   const [repeatPasswordFieldType, setRepeatPasswordFieldType] = useState<'password' | 'text'>('password');
   const router = useRouter();
-
-  const form = useForm<SignupFormSchemaType>({
-    resolver: zodResolver(signupFormSchema),
+  const form = useForm<ResetPasswordFormSchemaType>({
+    resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
       password: '',
       repeatPassword: '',
     },
   });
 
-  const onSubmit = async (values: SignupFormSchemaType) => {
-    setError(null);
-
-    const res = await signupAction(values);
+  const onSubmit = async (values: ResetPasswordFormSchemaType) => {
+    const res = await resetPasswordAction({ values, token });
 
     if (res.success) {
-      router.replace('/auth/signup-success');
+      toast.success(res.message);
+      router.replace('/auth/signin');
     } else {
-      setError(res.message);
+      toast.error(res.message);
     }
   };
 
@@ -44,44 +40,12 @@ const SignupForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8'
+        className='space-y-4'
       >
-        <FormField
-          control={form.control}
-          name='name'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder='John Doe'
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder='johndoe@email.com'
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <div className='flex justify-center items-start gap-4'>
           <FormField
             control={form.control}
-            name={'password'}
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
@@ -96,7 +60,7 @@ const SignupForm = () => {
                         size='icon'
                         onClick={() => setPasswordFieldType(passwordFieldType === 'password' ? 'text' : 'password')}
                       >
-                        {passwordFieldType === 'password' ? <EyeClosed /> : <Eye />}
+                        {repeatPasswordFieldType === 'password' ? <EyeClosed /> : <Eye />}
                       </Button>
                     }
                     {...field}
@@ -134,18 +98,10 @@ const SignupForm = () => {
             )}
           />
         </div>
-        {error && (
-          <p
-            data-slot='form-message'
-            className='text-destructive text-sm'
-          >
-            {error}
-          </p>
-        )}
         <Button
           type='submit'
-          isLoading={form.formState.isSubmitting}
           className='w-full'
+          isLoading={form.formState.isSubmitting}
         >
           Submit
         </Button>
@@ -154,4 +110,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default ResetPasswordForm;

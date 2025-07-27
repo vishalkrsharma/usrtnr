@@ -4,13 +4,14 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeClosed } from 'lucide-react';
 import { SigninFormSchemaType } from '@/types/form';
 import { signinFormSchema } from '@/schema/auth.schema';
 import { signinAction } from '@/actions/user.action';
+import { Link } from '@/components/ui/link';
 
 const SigninForm = () => {
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +43,7 @@ const SigninForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8'
+        className='space-y-4'
       >
         <FormField
           control={form.control}
@@ -85,6 +86,14 @@ const SigninForm = () => {
                   {...field}
                 />
               </FormControl>
+              <FormDescription>
+                <Link
+                  href='/auth/forgot-password'
+                  className='p-0 text-sm font-normal h-5'
+                >
+                  Forgot password?
+                </Link>
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -1,6 +1,6 @@
 import Header from '@/app/(root)/(home)/_components/header';
 import Utils from '@/app/(root)/(home)/_components/utils';
-import UrlShortenerForm from '@/components/forms/url-shortener-form';
+import UrlShortenerForm from '@/components/form/url-shortener-form';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { checkSession } from '@/lib/session';
