@@ -71,15 +71,14 @@ export const signinAction = async (values: SigninFormSchemaType) => {
   }
 };
 
-export const signoutAction = async (): Promise<TResponse<{}>> => {
+export const signoutAction = async (): Promise<TResponse<null>> => {
   try {
-    const data = await auth.api.signOut({
+    await auth.api.signOut({
       headers: await headers(),
     });
 
     return {
       success: true,
-      data,
       message: 'Logout successful',
     };
   } catch (error) {

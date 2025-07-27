@@ -16,11 +16,9 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     autoSignIn: true,
   },
-  plugins: [
-    nextCookies(), // Handles cookies automatically
-  ],
+  plugins: [nextCookies()],
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }, request) => {
+    sendVerificationEmail: async ({ user, url }) => {
       await sendVerificationEmailAction({
         to: user.email,
         subject: 'Verify your email address',
@@ -28,7 +26,7 @@ export const auth = betterAuth({
       });
     },
     autoSignInAfterVerification: true,
-    callbackURL: '/dashboard', // Redirect here after verification + auto sign-in
+    callbackURL: '/dashboard',
   },
   socialProviders: {
     github: {

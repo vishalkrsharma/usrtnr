@@ -18,7 +18,7 @@ const ProfileDropdown = ({ session }: { session: User }) => {
   const router = useRouter();
 
   const signout = async () => {
-    const res = await signoutAction();
+    await signoutAction();
     router.push('/auth/signin');
   };
 
