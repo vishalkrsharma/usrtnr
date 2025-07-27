@@ -6,7 +6,7 @@ import { ModeToggle } from '@/components/ui/mode-toggle';
 import { getSession } from '@/lib/session';
 
 const Navbar = async () => {
-  const userData = await getSession();
+  const session = await getSession();
 
   return (
     <div className='border-b shadow-2xl fixed w-full bg-background z-50'>
@@ -24,7 +24,7 @@ const Navbar = async () => {
           <NavLinks />
           <div className='flex justify-end items-center gap-4 flex-1'>
             <ModeToggle />
-            <ProfileDropdown userData={userData} />
+            <ProfileDropdown session={session} />
           </div>
         </nav>
       </div>

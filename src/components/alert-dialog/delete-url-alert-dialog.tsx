@@ -96,7 +96,7 @@ const DeleteUrlAlertDialog = () => {
                   <FormLabel>Enter the short route</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='******'
+                      placeholder='***********'
                       {...field}
                     />
                   </FormControl>
