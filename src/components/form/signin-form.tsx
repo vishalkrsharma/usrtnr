@@ -13,7 +13,7 @@ import { signinFormSchema } from '@/schema/auth.schema';
 import { signinAction } from '@/actions/user.action';
 import { Link } from '@/components/ui/link';
 
-const SigninForm = () => {
+const SigninForm = ({ callbackUrl }: { callbackUrl?: string }) => {
   const [error, setError] = useState<string | null>(null);
   const [passwordFieldType, setPasswordFieldType] = useState<'password' | 'text'>('password');
 
@@ -30,10 +30,10 @@ const SigninForm = () => {
   const onSubmit = async (values: SigninFormSchemaType) => {
     setError(null);
 
-    const res = await signinAction(values);
+    const res = await signinAction(values, callbackUrl);
 
     if (res.success) {
-      router.replace('/dashboard');
+      router.replace(callbackUrl || '/dashboard');
     } else {
       setError(res.message);
     }

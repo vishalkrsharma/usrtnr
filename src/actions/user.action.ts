@@ -6,8 +6,47 @@ import { TResponse } from '@/types/global';
 import { User } from 'better-auth';
 import { headers } from 'next/headers';
 
+export const socialSigninAction = async ({
+  provider,
+  callbackUrl,
+}: {
+  provider: string;
+  callbackUrl?: string;
+}): Promise<
+  TResponse<{
+    url: string;
+    redirect: boolean;
+  }>
+> => {
+  try {
+    const data = await auth.api.signInSocial({
+      body: {
+        provider,
+        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
+      },
+    });
+
+    return {
+      success: true,
+      data: {
+        url: data.url || '',
+        redirect: data.redirect || false,
+      },
+      message: 'Social signin successful',
+    };
+  } catch (error) {
+    console.log('Error in socialSigninAction:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'An An unknown error occurred',
+      error: error instanceof Error ? error : new Error('An An unknown error occurred'),
+    };
+  }
+};
+
 export const signupAction = async (
-  values: SignupFormSchemaType
+  values: SignupFormSchemaType,
+  callbackUrl?: string
 ): Promise<
   TResponse<{
     token: string | null;
@@ -18,7 +57,7 @@ export const signupAction = async (
     const data = await auth.api.signUpEmail({
       body: {
         ...values,
-        callbackURL: 'http://localhost:3000/dashboard',
+        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
       },
       headers: await headers(),
     });
@@ -38,12 +77,12 @@ export const signupAction = async (
   }
 };
 
-export const signinAction = async (values: SigninFormSchemaType) => {
+export const signinAction = async (values: SigninFormSchemaType, callbackUrl?: string) => {
   try {
     const res = await auth.api.signInEmail({
       body: {
         ...values,
-        callbackURL: 'http://localhost:3000/dashboard',
+        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
       },
       headers: await headers(),
     });

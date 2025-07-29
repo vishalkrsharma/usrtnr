@@ -1,6 +1,8 @@
 import SignupForm from '@/components/form/signup-form';
+import OAuthButtons from '@/components/helper/oauth-buttons';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@/components/ui/link';
+import { Separator } from '@/components/ui/separator';
 
 const SignUpPage = () => {
   return (
@@ -10,7 +12,9 @@ const SignUpPage = () => {
           <CardTitle className='text-2xl'>Sign up</CardTitle>
           <CardDescription>Create a new account</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className='flex flex-col gap-4'>
+          <OAuthButtons />
+          <Separator />
           <SignupForm />
         </CardContent>
         <CardFooter>

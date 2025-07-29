@@ -15,3 +15,8 @@ export type TIPAddrRes = {
   countryCode?: string;
   query: string;
 };
+
+export type TOAuthButton = {
+  name: string;
+  icon: string;
+};

@@ -28,6 +28,10 @@ export const auth = betterAuth({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
@@ -43,7 +47,7 @@ export const auth = betterAuth({
   session: {
     cookieCache: {
       enabled: true,
-      maxAge: 5 * 60, // Cache session for 5 minutes
+      maxAge: 24 * 60 * 60,
     },
   },
   plugins: [nextCookies()],
