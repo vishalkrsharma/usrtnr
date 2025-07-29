@@ -3,6 +3,8 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import prisma from '@/lib/prisma';
 import { sendEmailAction } from '@/actions/email.action';
 import { nextCookies } from 'better-auth/next-js';
+import { render } from '@react-email/components';
+import WelcomeEmail from '@/components/email/welcome-email';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -43,6 +45,20 @@ export const auth = betterAuth({
     },
     autoSignInAfterVerification: true,
     callbackURL: '/dashboard',
+    afterEmailVerification: async (user) => {
+      const welcomeEmailHtml = await render(
+        WelcomeEmail({
+          name: user.name.split(' ')[0],
+          email: user.email,
+        })
+      );
+
+      sendEmailAction({
+        to: user.email,
+        subject: 'Welcome to usrtnr! 🎉',
+        html: welcomeEmailHtml,
+      });
+    },
   },
   session: {
     cookieCache: {

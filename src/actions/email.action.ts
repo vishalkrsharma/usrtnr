@@ -9,10 +9,12 @@ export const sendEmailAction = async ({
   to,
   subject,
   text,
+  html,
 }: {
   to: string;
   subject: string;
-  text: string;
+  text?: string;
+  html?: string;
 }): Promise<
   TResponse<{
     data: CreateEmailResponseSuccess;
@@ -24,7 +26,7 @@ export const sendEmailAction = async ({
       from: 'usrtnr <onboarding@resend.dev>',
       to: [to],
       subject: subject,
-      html: `<p>${text}</p>`,
+      html: html || `<p>${text}</p>`,
       text: text,
     });
 
