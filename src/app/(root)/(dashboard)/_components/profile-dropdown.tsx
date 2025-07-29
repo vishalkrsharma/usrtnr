@@ -1,5 +1,6 @@
 'use client';
 
+import { signoutAction } from '@/actions/user.action';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,27 +10,28 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/ui/user-avatar';
-import { clearSession } from '@/lib/session';
-import { User } from '@supabase/supabase-js';
+import { User } from 'better-auth';
+
 import { useRouter } from 'next/navigation';
 
-const ProfileDropdown = ({ userData }: { userData: User }) => {
+const ProfileDropdown = ({ session }: { session: User }) => {
   const router = useRouter();
 
-  const logout = async () => {
-    await clearSession();
+  const signout = async () => {
+    await signoutAction();
+    router.push('/auth/signin');
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar identifier={userData.user_metadata.email} />
+        <UserAvatar identifier={session.name} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push('/profile')}>Profile</DropdownMenuItem>
-        <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={signout}>Sign out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

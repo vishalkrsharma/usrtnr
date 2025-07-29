@@ -5,50 +5,109 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider =      "prisma-client-js"
-  output   =      "../src/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_DIRECT_URL")
 }
 
 model Url {
-  id            String    @id
-  shortRoute    String    @unique
-  originalUrl   String
-  userId        String?
-  doAnalyze      Boolean   @default(false)
+  id          String  @id
+  shortRoute  String  @unique
+  originalUrl String
+  userId      String?
+  doAnalyze   Boolean @default(false)
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  analytics     Analytics[]
+  analytics Analytics[]
 
   @@index([originalUrl])
   @@index([userId])
 }
 
 model Analytics {
-  id              Int       @id @default(autoincrement())
-  shortRoute      String
+  id         Int    @id @default(autoincrement())
+  shortRoute String
 
-  ip              String?             // From x-real-ip or x-forwarded-for
-  userAgent       String?             // Raw user-agent string
-  referer         String?             // Referrer URL
-  host            String?             // Domain accessed
-  protocol        String?             // http or https (x-forwarded-proto)
-  port            Int?                // Port used (x-forwarded-port)
-  fetchMode       String?             // sec-fetch-mode
-  fetchSite       String?             // sec-fetch-site
-  fetchDest       String?             // sec-fetch-dest
-  doNotTrack      Boolean?            // dnt = "1"
-  globalPrivacy   Boolean?            // sec-gpc = "1"
-  acceptLanguage  String?             // User language preferences
+  ip             String? // From x-real-ip or x-forwarded-for
+  userAgent      String? // Raw user-agent string
+  referer        String? // Referrer URL
+  host           String? // Domain accessed
+  protocol       String? // http or https (x-forwarded-proto)
+  port           Int? // Port used (x-forwarded-port)
+  fetchMode      String? // sec-fetch-mode
+  fetchSite      String? // sec-fetch-site
+  fetchDest      String? // sec-fetch-dest
+  doNotTrack     Boolean? // dnt = "1"
+  globalPrivacy  Boolean? // sec-gpc = "1"
+  acceptLanguage String? // User language preferences
 
-  url             Url       @relation(fields: [shortRoute], references: [shortRoute], onDelete: Cascade)
+  url Url @relation(fields: [shortRoute], references: [shortRoute], onDelete: Cascade)
 
-  createdAt       DateTime  @default(now())
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
 }

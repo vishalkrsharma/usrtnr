@@ -10,15 +10,15 @@ import { revalidatePath } from 'next/cache';
 
 export const urlShortenerAction = async ({ url }: { url: string }): Promise<TResponse<Url>> => {
   try {
-    const userData = await checkSession();
+    const session = await checkSession();
 
     const createdUrl = await prisma.url.create({
       data: {
         id: generateSnowflakeId(),
         originalUrl: url,
         shortRoute: '',
-        userId: userData?.id,
-        doAnalyze: !!userData?.id,
+        userId: session?.id,
+        doAnalyze: !!session?.id,
       },
     });
 
@@ -50,7 +50,7 @@ export const urlShortenerAction = async ({ url }: { url: string }): Promise<TRes
 
 export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: string }): Promise<TResponse<Url>> => {
   try {
-    const userData = await getSession();
+    const session = await getSession();
 
     const url = await prisma.url.findUnique({
       where: { id: shortUrlId },
@@ -67,7 +67,7 @@ export const addUrlToAccountAction = async ({ shortUrlId }: { shortUrlId: string
 
     const updatedUrl = await prisma.url.update({
       where: { id: shortUrlId },
-      data: { userId: userData.id },
+      data: { userId: session.id },
     });
 
     return {
@@ -97,10 +97,10 @@ export const getAllUrlsByUserId = async ({
   query?: string;
 }): Promise<TResponse<{ urls: Url[]; total: number }>> => {
   try {
-    const userData = await getSession();
+    const session = await getSession();
     const offset = (page - 1) * limit;
 
-    const whereClause: Prisma.UrlWhereInput = { userId: userData.id };
+    const whereClause: Prisma.UrlWhereInput = { userId: session.id };
     if (query && query.trim() !== '') {
       whereClause.originalUrl = { contains: query, mode: 'insensitive' };
     }
@@ -144,10 +144,10 @@ export const getAllUrlsByUserId = async ({
 
 export const getUrlById = async ({ id }: { id: string }): Promise<TResponse<{ url: Url; analytics: Analytics[] }>> => {
   try {
-    const userData = await getSession();
+    const session = await getSession();
 
     const url = await prisma.url.findUnique({
-      where: { id: id, userId: userData.id },
+      where: { id: id, userId: session.id },
     });
 
     if (!url) {

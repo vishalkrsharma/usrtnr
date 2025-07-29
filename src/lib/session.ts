@@ -1,31 +1,25 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 export const getSession = async () => {
-  const supabase = await createClient();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    clearSession();
-    redirect('/auth/log-in');
+  if (!session?.user) {
+    redirect('/auth/signin');
   }
 
-  return data.user;
+  return session.user;
 };
 
 export const checkSession = async () => {
-  const supabase = await createClient();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  const { data } = await supabase.auth.getUser();
-
-  return data.user;
-};
-
-export const clearSession = async () => {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-  redirect('/auth/log-in');
+  return session?.user || null;
 };
