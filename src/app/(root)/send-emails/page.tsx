@@ -2,7 +2,7 @@
 
 import { sendEmailAction } from '@/actions/email.action';
 import WelcomeEmail from '@/components/email/welcome-email';
-import EmailVerification from '@/components/email/verification-email';
+import VerificationEmail from '@/components/email/verification-email';
 import ForgotPasswordEmail from '@/components/email/forgot-password-email';
 import { Button } from '@/components/ui/button';
 import { render } from '@react-email/components';
@@ -31,7 +31,7 @@ const SendEmailsPage = () => {
       <Button
         onClick={async () => {
           const emailVerificationHtml = await render(
-            EmailVerification({
+            VerificationEmail({
               name: 'Test User',
               email: 'test@example.com',
               verificationToken: 'test-verification-token-123',
