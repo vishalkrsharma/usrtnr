@@ -22,7 +22,7 @@ export const socialSigninAction = async ({
     const data = await auth.api.signInSocial({
       body: {
         provider,
-        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
+        callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
       },
     });
 
@@ -57,7 +57,7 @@ export const signupAction = async (
     const data = await auth.api.signUpEmail({
       body: {
         ...values,
-        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
+        callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
       },
       headers: await headers(),
     });
@@ -82,7 +82,7 @@ export const signinAction = async (values: SigninFormSchemaType, callbackUrl?: s
     const res = await auth.api.signInEmail({
       body: {
         ...values,
-        callbackURL: callbackUrl || 'http://localhost:3000/dashboard',
+        callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
       },
       headers: await headers(),
     });
@@ -135,7 +135,7 @@ export const forgotPasswordAction = async (values: ForgotPasswordFormSchemaType)
     const data = await auth.api.forgetPassword({
       body: {
         ...values,
-        redirectTo: 'http://localhost:3000/auth/reset-password',
+        redirectTo: process.env.NEXT_PUBLIC_BASE_URL + '/auth/reset-password',
       },
       headers: await headers(),
     });
