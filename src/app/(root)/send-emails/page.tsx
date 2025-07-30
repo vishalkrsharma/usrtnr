@@ -34,7 +34,7 @@ const SendEmailsPage = () => {
             VerificationEmail({
               name: 'Test User',
               email: 'test@example.com',
-              verificationToken: 'test-verification-token-123',
+              url: '',
             })
           );
           sendEmailAction({
