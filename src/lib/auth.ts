@@ -51,15 +51,11 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      // Extract verification token from URL
-      const urlObj = new URL(url);
-      const verificationToken = urlObj.searchParams.get('token') || '';
-
       const verificationEmailHtml = await render(
         VerificationEmail({
           name: user.name.split(' ')[0],
           email: user.email,
-          verificationToken: verificationToken,
+          url,
         })
       );
 
