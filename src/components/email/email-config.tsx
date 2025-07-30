@@ -1,4 +1,4 @@
-import { Body, Head, Html, Tailwind } from '@react-email/components';
+import { Body, Html, Tailwind } from '@react-email/components';
 import { ReactNode } from 'react';
 
 const EmailConfig = ({ children }: { children: ReactNode }) => {
@@ -58,44 +58,7 @@ const EmailConfig = ({ children }: { children: ReactNode }) => {
       }}
     >
       <Html>
-        <Head>
-          <meta charSet='utf-8' />
-          <meta
-            name='viewport'
-            content='width=device-width, initial-scale=1.0'
-          />
-          <style>
-            {`
-              @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-              
-              /* Email client specific resets */
-              body {
-                margin: 0;
-                padding: 0;
-                background-color: #f4f4f5;
-                font-family: Inter, Arial, sans-serif;
-                line-height: 1.6;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-              }
-              
-              table {
-                border-collapse: collapse;
-                mso-table-lspace: 0pt;
-                mso-table-rspace: 0pt;
-              }
-              
-              /* Ensure consistent rendering */
-              .email-container {
-                max-width: 600px;
-                margin: 0 auto;
-              }
-            `}
-          </style>
-        </Head>
-        <Body className='bg-background font-sans m-0 p-0'>
-          <div className='email-container'>{children}</div>
-        </Body>
+        <Body className='bg-background font-mono m-0 p-0'>{children}</Body>
       </Html>
     </Tailwind>
   );

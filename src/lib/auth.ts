@@ -5,6 +5,8 @@ import { sendEmailAction } from '@/actions/email.action';
 import { nextCookies } from 'better-auth/next-js';
 import { render } from '@react-email/components';
 import WelcomeEmail from '@/components/email/welcome-email';
+import VerificationEmail from '@/components/email/verification-email';
+import ForgotPasswordEmail from '@/components/email/forgot-password-email';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -18,10 +20,22 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     autoSignIn: true,
     sendResetPassword: async ({ user, url }) => {
+      // Extract reset token from URL
+      const urlObj = new URL(url);
+      const resetToken = urlObj.searchParams.get('token') || '';
+
+      const forgotPasswordEmailHtml = await render(
+        ForgotPasswordEmail({
+          name: user.name.split(' ')[0],
+          email: user.email,
+          resetToken: resetToken,
+        })
+      );
+
       await sendEmailAction({
         to: user.email,
-        subject: 'Reset your password',
-        text: `Click the link to reset your password: ${url}`,
+        subject: 'Reset your password - usrtnr',
+        html: forgotPasswordEmailHtml,
       });
     },
   },
@@ -37,10 +51,22 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      // Extract verification token from URL
+      const urlObj = new URL(url);
+      const verificationToken = urlObj.searchParams.get('token') || '';
+
+      const verificationEmailHtml = await render(
+        VerificationEmail({
+          name: user.name.split(' ')[0],
+          email: user.email,
+          verificationToken: verificationToken,
+        })
+      );
+
       await sendEmailAction({
         to: user.email,
-        subject: 'Verify your email address',
-        text: `Click the link to verify your email: ${url}`,
+        subject: 'Verify your email address - usrtnr',
+        html: verificationEmailHtml,
       });
     },
     autoSignInAfterVerification: true,
