@@ -2,7 +2,7 @@ import UnderDevelopment from '@/components/helper/under-development';
 
 const ProfilePage = () => {
   return (
-    <main className='flex-1 flex flex-col items-stretch'>
+    <main className='gap-8 flex-1 flex items-stretch flex-col w-full'>
       <UnderDevelopment
         buttonTitle='Head over to Urls Page!!'
         buttonHref='/urls'

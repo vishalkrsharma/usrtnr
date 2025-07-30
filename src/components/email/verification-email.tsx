@@ -1,10 +1,7 @@
 import EmailConfig from '@/components/email/email-config';
 import { Container, Text, Button, Hr, Section } from '@react-email/components';
 
-const VerificationEmail = ({ name, email, verificationToken }: { name: string; email: string; verificationToken: string }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const verificationUrl = `${baseUrl}/auth/verify?token=${verificationToken}`;
-
+const VerificationEmail = ({ name, email, url }: { name: string; email: string; url: string }) => {
   return (
     <EmailConfig>
       <Container className='mx-auto max-w-2xl'>
@@ -64,7 +61,7 @@ const VerificationEmail = ({ name, email, verificationToken }: { name: string; e
               <Text className='font-medium text-foreground mb-4'>Ready to verify your email?</Text>
 
               <Button
-                href={verificationUrl}
+                href={url}
                 className='inline-block text-center no-underline bg-primary text-primary-foreground rounded-md px-4 py-2 text-base font-medium leading-5 border-0 cursor-pointer'
               >
                 Verify Email Address
@@ -73,7 +70,7 @@ const VerificationEmail = ({ name, email, verificationToken }: { name: string; e
 
             <Section className='text-center'>
               <Text className='text-muted-foreground text-xs mb-2'>If the button doesn&#39;t work, copy and paste this link into your browser:</Text>
-              <Text className='text-muted-foreground text-xs break-all'>{verificationUrl}</Text>
+              <Text className='text-muted-foreground text-xs break-all'>{url}</Text>
             </Section>
           </Section>
 

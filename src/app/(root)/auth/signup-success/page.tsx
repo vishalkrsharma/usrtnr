@@ -1,6 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
-const SignUpSuccessPage = () => {
+const SignUpSuccessPage = async () => {
+  const session = await getSession();
+
+  if (session) redirect('/dashboard');
+
   return (
     <main className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
       <Card className='w-full max-w-lg flex flex-col gap-6'>
