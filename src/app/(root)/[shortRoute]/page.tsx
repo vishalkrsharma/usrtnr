@@ -19,11 +19,6 @@ const RedirectPage = async ({ params }: { params: Promise<{ shortRoute: string }
 
   const headersList = await headers();
 
-  // Print all headers as an object
-  const headersObj = Object.fromEntries(headersList.entries());
-  console.log(headersObj);
-
-  // Create analytics record in background
   prisma.analytics
     .create({
       data: {

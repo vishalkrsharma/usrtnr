@@ -8,8 +8,6 @@ import { checkSession } from '@/lib/session';
 const HomePage = async () => {
   const session = await checkSession();
 
-  console.log(session);
-
   return (
     <main className='min-h-screen flex flex-col items-center justify-center gap-4 relative z-0'>
       <Utils />

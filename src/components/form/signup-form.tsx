@@ -7,10 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeClosed } from 'lucide-react';
+import { Eye, EyeClosed, Info } from 'lucide-react';
 import { SignupFormSchemaType } from '@/types/form';
 import { signupFormSchema } from '@/schema/auth.schema';
 import { signupAction } from '@/actions/user.action';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const SignupForm = () => {
   const [error, setError] = useState<string | null>(null);
@@ -58,6 +59,43 @@ const SignupForm = () => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='username'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder='johndoe'
+                  rightElement={
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='icon'
+                        >
+                          <Info className='size-4' />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          If you don&#39;t want to set a username,
+                          <br />
+                          your email will be used as your username
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  }
+                  {...field}
+                />
+              </FormControl>
+
               <FormMessage />
             </FormItem>
           )}

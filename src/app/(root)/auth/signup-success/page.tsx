@@ -1,9 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { getSession } from '@/lib/session';
+import { checkSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
 const SignUpSuccessPage = async () => {
-  const session = await getSession();
+  const session = await checkSession();
 
   if (session) redirect('/dashboard');
 

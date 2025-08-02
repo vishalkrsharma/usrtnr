@@ -57,6 +57,7 @@ export const signupAction = async (
     const data = await auth.api.signUpEmail({
       body: {
         ...values,
+        username: values.username || values.email.split('@')[0],
         callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
       },
       headers: await headers(),
@@ -79,17 +80,31 @@ export const signupAction = async (
 
 export const signinAction = async (values: SigninFormSchemaType, callbackUrl?: string) => {
   try {
-    const res = await auth.api.signInEmail({
-      body: {
-        ...values,
-        callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
-      },
-      headers: await headers(),
-    });
+    const isEmail = values.identifier.includes('@') && values.identifier.includes('.');
 
-    console.log(res);
+    let res;
 
-    if (res.user) {
+    if (isEmail) {
+      res = await auth.api.signInEmail({
+        body: {
+          ...values,
+          email: values.identifier,
+          callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
+        },
+        headers: await headers(),
+      });
+    } else {
+      res = await auth.api.signInUsername({
+        body: {
+          ...values,
+          username: values.identifier,
+          callbackURL: callbackUrl || process.env.NEXT_PUBLIC_BASE_URL + '/dashboard',
+        },
+        headers: await headers(),
+      });
+    }
+
+    if (res?.user) {
       return {
         success: true,
         data: res,
@@ -132,15 +147,13 @@ export const signoutAction = async (): Promise<TResponse<null>> => {
 
 export const forgotPasswordAction = async (values: ForgotPasswordFormSchemaType): Promise<TResponse<null>> => {
   try {
-    const data = await auth.api.forgetPassword({
+    await auth.api.forgetPassword({
       body: {
         ...values,
         redirectTo: process.env.NEXT_PUBLIC_BASE_URL + '/auth/reset-password',
       },
       headers: await headers(),
     });
-
-    console.log(data);
 
     return {
       success: true,
