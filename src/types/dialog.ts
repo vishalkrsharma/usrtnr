@@ -1,6 +1,7 @@
 export enum EDialogType {
   SHORT_URL = 'SHORT_URL',
   SHORT_URL_CREATE = 'SHORT_URL_CREATE',
+  PROFILE = 'PROFILE',
 }
 
 export type TDialog = {

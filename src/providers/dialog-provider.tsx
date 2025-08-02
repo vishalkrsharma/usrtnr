@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileDialog from '@/components/dialog/profile-dialog';
 import ShortUrlCreateDialog from '@/components/dialog/short-url-create-dialog';
 import ShortUrlDialog from '@/components/dialog/short-url-dialog';
 import { useDialog } from '@/hooks/use-dialog';
@@ -18,6 +19,7 @@ export default function DialogProvider() {
     <>
       <ShortUrlDialog />
       <ShortUrlCreateDialog />
+      <ProfileDialog />
     </>
   );
 }
