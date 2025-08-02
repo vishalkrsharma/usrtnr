@@ -20,7 +20,7 @@ const SigninForm = ({ callbackUrl }: { callbackUrl?: string }) => {
   const form = useForm<SigninFormSchemaType>({
     resolver: zodResolver(signinFormSchema),
     defaultValues: {
-      email: '',
+      identifier: '',
       password: '',
     },
   });
@@ -47,13 +47,13 @@ const SigninForm = ({ callbackUrl }: { callbackUrl?: string }) => {
       >
         <FormField
           control={form.control}
-          name='email'
+          name='identifier'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email or Username</FormLabel>
               <FormControl>
                 <Input
-                  placeholder='johndoe@email.com'
+                  placeholder='johndoe@email.com or johndoe'
                   {...field}
                 />
               </FormControl>

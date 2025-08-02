@@ -7,6 +7,7 @@ import { render } from '@react-email/components';
 import WelcomeEmail from '@/components/email/welcome-email';
 import VerificationEmail from '@/components/email/verification-email';
 import ForgotPasswordEmail from '@/components/email/forgot-password-email';
+import { username } from 'better-auth/plugins';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -88,5 +89,5 @@ export const auth = betterAuth({
       maxAge: 24 * 60 * 60,
     },
   },
-  plugins: [nextCookies()],
+  plugins: [nextCookies(), username()],
 });
